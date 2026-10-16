@@ -1,0 +1,1895 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="美妍研">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#6C4CF1">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<title>美妍研 · 行业情报与市场分析</title>
+<style>
+:root{
+  --brand:#6C4CF1; --brand2:#9B7BFF; --brand-soft:#F0ECFF; --brand-deep:#4B31C4;
+  --accent:#FF7A45; --accent-soft:#FFF1EA;
+  --up:#E4393C; --up-soft:#FFECEC;
+  --down:#0AA06E; --down-soft:#E6F7F1;
+  --warn:#D9930A; --warn-soft:#FFF7E6;
+  --bg:#F4F5F9; --card:#FFFFFF;
+  --t1:#1A1D2E; --t2:#5B6078; --t3:#9298AD;
+  --line:#EDEFF5; --line2:#F5F6FA;
+  --r:14px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+  background:#E9EBF1;color:var(--t1);
+  -webkit-font-smoothing:antialiased;
+}
+.topbar{position:sticky;top:0;z-index:80;display:flex;align-items:center;gap:14px;
+  padding:12px 22px;background:rgba(255,255,255,.86);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line)}
+.tb-logo{width:28px;height:28px;border-radius:9px;background:linear-gradient(135deg,var(--brand),var(--brand2));
+  display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:13px;flex:none}
+.tb-title{font-size:14px;font-weight:700;letter-spacing:.2px}
+.tb-sub{font-size:12px;color:var(--t3);margin-left:2px}
+.tb-sp{flex:1}
+.tb-btn{border:1px solid var(--line);background:#fff;border-radius:9px;padding:7px 13px;font-size:12.5px;
+  color:var(--t2);cursor:pointer;font-weight:600;transition:.16s}
+.tb-btn:hover{border-color:var(--brand);color:var(--brand)}
+.tb-btn.on{background:var(--brand);border-color:var(--brand);color:#fff}
+.tb-note{font-size:11.5px;color:var(--t3)}
+.dot-demo{display:inline-block;padding:2px 7px;border-radius:6px;background:var(--warn-soft);color:var(--warn);
+  font-size:11px;font-weight:700;margin-left:8px;vertical-align:1px}
+.stage{display:flex;justify-content:center;padding:34px 16px 80px}
+.phone{width:375px;height:812px;background:var(--bg);border-radius:44px;position:relative;
+  display:flex;flex-direction:column;overflow:hidden;
+  box-shadow:0 0 0 11px #171A26,0 0 0 12.5px #33384C,0 30px 70px rgba(20,24,40,.32)}
+.screen{display:none;flex-direction:column;flex:1;min-height:0;position:relative}
+.screen.active{display:flex}
+.statusbar{height:44px;flex:none;display:flex;align-items:center;justify-content:space-between;
+  padding:0 20px 0 22px;font-size:13.5px;font-weight:700;color:var(--t1);letter-spacing:.3px}
+.sb-r{display:flex;align-items:center;gap:5px}
+.navbar{height:44px;flex:none;display:flex;align-items:center;padding:0 12px;background:#fff;
+  border-bottom:1px solid var(--line);position:relative;z-index:6}
+.navbar.plain{background:transparent;border-bottom:none}
+.nav-back{width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;
+  border-radius:9px;flex:none}
+.nav-back:active{background:var(--line2)}
+.nav-t{flex:1;text-align:center;font-size:15.5px;font-weight:700;padding-right:32px}
+.nav-t.left{text-align:left;padding-left:6px;padding-right:0}
+.capsule{width:78px;height:30px;border-radius:16px;border:1px solid rgba(0,0,0,.08);background:rgba(255,255,255,.7);
+  display:flex;align-items:center;justify-content:space-around;flex:none;margin-left:auto}
+.capsule i{display:block;width:14px;height:14px;border-radius:50%;border:2.2px solid #333;position:relative}
+.capsule b{display:flex;gap:2.5px;align-items:center}
+.capsule b s{display:block;width:3.6px;height:3.6px;border-radius:50%;background:#333;text-decoration:none}
+.nav-actions{display:flex;gap:12px;margin-left:auto;padding-right:6px;color:var(--t3);font-size:12.5px;font-weight:600}
+.nav-actions span{cursor:pointer}
+.nav-actions span:hover{color:var(--brand)}
+.page{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;padding:12px 14px 22px}
+.page::-webkit-scrollbar{width:0}
+.page.flush{padding:0 0 18px}
+.card{background:var(--card);border-radius:var(--r);padding:14px;margin-bottom:12px;
+  box-shadow:0 1px 2px rgba(26,29,46,.04),0 6px 18px -12px rgba(26,29,46,.14)}
+.card.tight{padding:12px}
+.sect-h{display:flex;align-items:center;justify-content:space-between;margin:4px 2px 10px}
+.sect-h h3{margin:0;font-size:14.5px;font-weight:750;letter-spacing:.2px;display:flex;align-items:center;gap:7px}
+.sect-h h3::before{content:"";width:3.5px;height:14px;border-radius:2px;background:linear-gradient(var(--brand),var(--brand2))}
+.sect-h a{font-size:12px;color:var(--t3);text-decoration:none;cursor:pointer;font-weight:600}
+.sect-h a:hover{color:var(--brand)}
+.muted{color:var(--t2)}
+.t3{color:var(--t3)}
+.xs{font-size:11px}
+.sm{font-size:12px}
+.md{font-size:13px}
+.tag{display:inline-block;padding:2px 7px;border-radius:6px;font-size:10.5px;font-weight:650;line-height:1.5;
+  background:var(--line2);color:var(--t2);white-space:nowrap}
+.tg-brand{background:var(--brand-soft);color:var(--brand-deep)}
+.tg-up{background:var(--up-soft);color:var(--up)}
+.tg-down{background:var(--down-soft);color:var(--down)}
+.tg-accent{background:var(--accent-soft);color:#D4562A}
+.tg-warn{background:var(--warn-soft);color:var(--warn)}
+.tg-unknown{background:#EDEEF2;color:#8A8FA3}
+.tg-third{background:#EAF1FF;color:#2F6BD8}
+.tg-safe{background:#E6F7F1;color:#0AA06E}
+.tg-risk{background:#FFECEC;color:#E4393C}
+.btn{display:flex;align-items:center;justify-content:center;gap:6px;border:none;cursor:pointer;
+  border-radius:11px;padding:11px 14px;font-size:13.5px;font-weight:700;font-family:inherit;
+  background:var(--brand);color:#fff;width:100%;transition:.16s}
+.btn:active{transform:scale(.985)}
+.btn.ghost{background:var(--brand-soft);color:var(--brand-deep)}
+.btn.line{background:#fff;color:var(--t2);border:1px solid var(--line)}
+.divider{height:1px;background:var(--line);margin:12px -14px}
+.bar-track{height:6px;border-radius:4px;background:var(--line2);overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--brand),var(--brand2))}
+.chips{display:flex;gap:7px;overflow-x:auto;padding:2px 0 8px;margin:0 -14px;padding-left:14px;padding-right:14px}
+.chips::-webkit-scrollbar{height:0}
+.chip{flex:none;padding:6px 12px;border-radius:20px;background:#fff;border:1px solid var(--line);
+  font-size:12.5px;color:var(--t2);font-weight:600;cursor:pointer;transition:.16s}
+.chip.on{background:var(--brand);border-color:var(--brand);color:#fff}
+.seg{display:flex;background:var(--line2);border-radius:11px;padding:3px;gap:3px}
+.seg-item{flex:1;text-align:center;padding:7px 4px;border-radius:9px;font-size:12.5px;font-weight:700;
+  color:var(--t2);cursor:pointer;transition:.16s}
+.seg-item.on{background:#fff;color:var(--brand);box-shadow:0 1px 4px rgba(26,29,46,.08)}
+.searchbar{display:flex;align-items:center;gap:8px;background:#fff;border-radius:12px;padding:10px 13px;
+  border:1px solid var(--line);color:var(--t3);font-size:13px;cursor:pointer}
+.searchbar .sb-in{flex:1}
+.searchbar.hero{background:rgba(255,255,255,.94);border-color:transparent;box-shadow:0 8px 22px -10px rgba(20,10,60,.3)}
+.hero{background:linear-gradient(155deg,#6C4CF1 0%,#8A63F5 45%,#B08CFF 100%);
+  padding:0 14px 20px;margin:0 -0px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;width:230px;height:230px;border-radius:50%;
+  background:rgba(255,255,255,.11);right:-90px;top:-120px}
+.hero::before{content:"";position:absolute;width:150px;height:150px;border-radius:50%;
+  background:rgba(255,255,255,.07);right:30px;top:30px}
+.hero-in{position:relative;z-index:2}
+.hero-title{color:#fff;font-size:19px;font-weight:800;letter-spacing:.4px;margin:2px 0 3px}
+.hero-sub{color:rgba(255,255,255,.78);font-size:11.5px;margin-bottom:14px}
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.kpi{background:#fff;border-radius:12px;padding:10px 9px}
+.kpi .k-v{font-size:16px;font-weight:800;letter-spacing:-.3px;font-variant-numeric:tabular-nums}
+.kpi .k-l{font-size:10.5px;color:var(--t3);margin-top:3px;white-space:nowrap}
+.kpi .k-d{font-size:10px;font-weight:700;margin-top:2px}
+.kpi.glass{background:rgba(255,255,255,.15);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.22)}
+.kpi.glass .k-v{color:#fff}
+.kpi.glass .k-l{color:rgba(255,255,255,.75)}
+.kpi.glass .k-d{color:#FFE07A}
+.news-item{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.news-item:last-child{border-bottom:none;padding-bottom:2px}
+.news-item:first-child{padding-top:2px}
+.news-thumb{width:64px;height:64px;border-radius:10px;flex:none;
+  background:linear-gradient(140deg,#E9E3FF,#D6CBFF);display:flex;align-items:center;justify-content:center;font-size:20px}
+.news-thumb.b2{background:linear-gradient(140deg,#FFEDE6,#FFD6C5)}
+.news-thumb.b3{background:linear-gradient(140deg,#E3F5EE,#C6EBDC)}
+.news-thumb.b4{background:linear-gradient(140deg,#E6EEFF,#C8DAFF)}
+.news-b{flex:1;min-width:0}
+.news-t{font-size:13.5px;font-weight:700;line-height:1.4;margin-bottom:5px;display:-webkit-box;
+  -webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.news-m{font-size:11px;color:var(--t3);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.judge{display:flex;gap:10px;padding:11px 0;border-bottom:1px dashed var(--line)}
+.judge:last-child{border-bottom:none;padding-bottom:2px}
+.judge-no{width:22px;height:22px;border-radius:7px;background:var(--brand-soft);color:var(--brand-deep);
+  font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none}
+.judge-t{font-size:13px;font-weight:700;line-height:1.45;margin-bottom:5px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.gitem{background:var(--line2);border-radius:12px;padding:12px 6px;text-align:center;cursor:pointer;transition:.16s}
+.gitem:hover{background:var(--brand-soft)}
+.gitem .gi{font-size:19px;margin-bottom:5px}
+.gitem .gt{font-size:11px;font-weight:650;color:var(--t2);line-height:1.3}
+.rk{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);cursor:pointer;align-items:flex-start}
+.rk:last-child{border-bottom:none}
+.rk-no{width:24px;height:24px;border-radius:8px;background:var(--line2);color:var(--t2);font-size:12px;
+  font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px}
+.rk-no.top1{background:linear-gradient(135deg,#FFB020,#FF8A00);color:#fff}
+.rk-no.top2{background:linear-gradient(135deg,#B9C2D6,#8D99B3);color:#fff}
+.rk-no.top3{background:linear-gradient(135deg,#E8A87C,#C97C4A);color:#fff}
+.rk-main{flex:1;min-width:0}
+.rk-name{font-size:13.5px;font-weight:750;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rk-meta{font-size:11px;color:var(--t3);margin-bottom:5px}
+.rk-tags{display:flex;gap:5px;flex-wrap:wrap}
+.rk-reason{font-size:11px;color:var(--t2);line-height:1.5;margin-top:5px;background:var(--line2);
+  border-radius:8px;padding:6px 8px}
+.rk-right{text-align:right;flex:none;width:74px}
+.rk-chg{font-size:15px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.3px}
+.tb{width:100%;border-collapse:collapse;font-size:11.5px}
+.tb th{color:var(--t3);font-weight:600;text-align:left;padding:7px 4px;border-bottom:1px solid var(--line);font-size:10.5px}
+.tb td{padding:8px 4px;border-bottom:1px solid var(--line2);vertical-align:middle}
+.tb tr:last-child td{border-bottom:none}
+.tb .num{text-align:right;font-variant-numeric:tabular-nums;font-weight:650}
+.li{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.li:last-child{border-bottom:none}
+.li-ic{width:32px;height:32px;border-radius:10px;background:var(--brand-soft);display:flex;align-items:center;
+  justify-content:center;font-size:15px;flex:none}
+.li-b{flex:1;min-width:0}
+.li-t{font-size:13px;font-weight:700}
+.li-s{font-size:11px;color:var(--t3);margin-top:2px}
+.li-a{font-size:11.5px;color:var(--t3);flex:none}
+.chev{color:#C7CBDA;font-size:14px;flex:none}
+.factor{display:flex;gap:9px;align-items:center;padding:9px 0}
+.factor-n{width:18px;height:18px;border-radius:6px;background:var(--up-soft);color:var(--up);font-size:10.5px;
+  font-weight:800;display:flex;align-items:center;justify-content:center;flex:none}
+.factor-b{flex:1;min-width:0}
+.factor-t{font-size:12.5px;font-weight:650;margin-bottom:6px;line-height:1.4}
+.factor-p{font-size:12px;font-weight:800;color:var(--t2);width:38px;text-align:right;flex:none;font-variant-numeric:tabular-nums}
+.rv{padding:11px 0;border-bottom:1px solid var(--line)}
+.rv:last-child{border-bottom:none}
+.rv-h{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.rv-av{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#C9BCFF,#8A63F5);color:#fff;
+  font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none}
+.rv-n{font-size:12px;font-weight:650}
+.rv-t{font-size:10.5px;color:var(--t3);margin-left:auto}
+.rv-c{font-size:12.5px;line-height:1.65;color:#33364A}
+.rv-f{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}
+.stars{font-size:10.5px;color:#FFA726;letter-spacing:.5px}
+.hbar{display:flex;align-items:center;gap:8px;margin-bottom:9px}
+.hbar-l{width:56px;font-size:11.5px;color:var(--t2);flex:none;text-align:right}
+.hbar-track{flex:1;height:14px;border-radius:4px;background:var(--line2);position:relative;overflow:hidden;display:flex}
+.hbar-track i{display:block;height:100%}
+.hbar-v{width:44px;font-size:11px;font-weight:700;color:var(--t2);flex:none;font-variant-numeric:tabular-nums;text-align:right}
+.kw{display:flex;flex-wrap:wrap;gap:7px}
+.kw span{padding:4px 9px;border-radius:8px;font-size:11.5px;font-weight:650}
+.matrix-wrap{background:#fff;border-radius:var(--r);padding:10px 6px 6px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--t2);align-items:center}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.opp{border-left:3px solid var(--brand);background:#fff;border-radius:0 var(--r) var(--r) 0;padding:12px 14px;
+  margin-bottom:11px;cursor:pointer;box-shadow:0 1px 2px rgba(26,29,46,.04),0 6px 18px -14px rgba(26,29,46,.2)}
+.opp.hot{border-left-color:var(--accent)}
+.opp-h{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:7px}
+.opp-t{font-size:14px;font-weight:750;line-height:1.35}
+.opp-score{text-align:center;flex:none}
+.opp-score b{display:block;font-size:19px;font-weight:850;color:var(--brand);line-height:1.1;font-variant-numeric:tabular-nums}
+.opp-score span{font-size:9.5px;color:var(--t3)}
+.opp-line{font-size:11.5px;color:var(--t2);line-height:1.6;margin-bottom:6px}
+.opp-line b{color:var(--t1)}
+.opp-foot{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.tabbar{flex:none;height:58px;background:rgba(255,255,255,.97);border-top:1px solid var(--line);
+  display:flex;align-items:center;padding-bottom:4px;backdrop-filter:blur(8px)}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;
+  color:#A6ABBD;font-size:10px;font-weight:650;padding-top:6px;transition:.16s}
+.tab.on{color:var(--brand)}
+.tab svg{width:22px;height:22px}
+.mask{position:absolute;inset:0;background:rgba(20,16,40,.42);z-index:30;display:none;align-items:flex-end}
+.mask.on{display:flex}
+.sheet{width:100%;background:#fff;border-radius:20px 20px 0 0;padding:16px 16px 22px;
+  animation:up .22s cubic-bezier(.2,.8,.3,1)}
+@keyframes up{from{transform:translateY(26px);opacity:.6}to{transform:none;opacity:1}}
+.sheet-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.sheet-h b{font-size:15px;font-weight:750}
+.sheet-h i{font-style:normal;color:var(--t3);cursor:pointer;font-size:13px}
+.notice{display:flex;gap:8px;background:var(--warn-soft);border-radius:11px;padding:10px 12px;font-size:11px;
+  color:#8A6508;line-height:1.6;margin-bottom:12px}
+.notice b{color:#6B4E05}
+.notice.info{background:#EEF3FF;color:#2F4A9E}
+.notice.info b{color:#1F3670}
+.trace{background:var(--line2);border-radius:11px;padding:10px 12px;font-size:10.5px;color:var(--t3);line-height:1.75}
+.trace b{color:var(--t2);font-weight:700}
+.src-link{color:var(--brand-deep);text-decoration:none;border-bottom:1px solid var(--brand-soft);font-weight:600;cursor:pointer}
+.src-link:hover{color:var(--brand)}
+.gallery{display:none;padding:26px;gap:30px;flex-wrap:wrap;align-content:flex-start}
+body.ov .stage{display:none}
+body.ov .gallery{display:flex}
+
+/* ====== 美妍研 App 模式：iPhone / 已添加到主屏幕时全屏运行，隐藏原型外壳 ====== */
+@media (max-width: 820px){
+  .topbar{display:none !important}
+  .stage{display:block;padding:0}
+  .phone{
+    width:100%;height:100vh;height:100dvh;
+    border-radius:0;border:none;box-shadow:none;margin:0;
+    /* 允许真正铺满，去掉设备留白 */
+    max-width:100%;
+  }
+}
+/* 已添加到主屏幕（standalone）时，iOS 自带系统状态栏，隐藏仿真状态栏避免重复 */
+@media (display-mode: standalone){
+  .screen > .statusbar{display:none}
+  .navbar.plain{margin-top:env(safe-area-inset-top)}
+}
+.ovcard{width:375px}
+.ovlabel{font-size:12.5px;font-weight:750;color:#3A3F55;margin-bottom:9px;display:flex;align-items:center;gap:7px}
+.ovlabel em{font-style:normal;font-size:10.5px;font-weight:650;color:#fff;background:#6C4CF1;
+  border-radius:6px;padding:1.5px 6px}
+.ovframe{width:375px;height:812px;border-radius:36px;overflow:hidden;background:var(--bg);
+  box-shadow:0 12px 34px rgba(26,29,46,.16),0 0 0 1px rgba(26,29,46,.06)}
+.ovframe .screen{display:flex;height:100%}
+.ovframe .page::-webkit-scrollbar{width:0}
+/* ===== 美修式 成分表 ===== */
+.ing-table{width:100%;border-collapse:collapse;font-size:11px}
+.ing-table th{color:var(--t3);font-weight:600;text-align:left;padding:7px 5px;border-bottom:1px solid var(--line);font-size:10px}
+.ing-table td{padding:9px 5px;border-bottom:1px solid var(--line2);vertical-align:top;line-height:1.45}
+.ing-table tr:last-child td{border-bottom:none}
+.ing-idx{width:18px;color:var(--t3);font-weight:700;font-variant-numeric:tabular-nums}
+.ing-name{font-weight:700;font-size:12px;color:var(--t1)}
+.ing-role{font-size:10px;color:var(--t3);margin-top:2px}
+.star{color:#FFB020;letter-spacing:1px}
+.star-off{color:#E2E5EE}
+.ing-tag{display:inline-block;padding:1px 5px;border-radius:5px;font-size:9.5px;font-weight:650;margin:2px 2px 0 0;line-height:1.5}
+.it-safe{background:#E6F7F1;color:#0AA06E}
+.it-risk{background:#FFECEC;color:#E4393C}
+.it-info{background:var(--brand-soft);color:var(--brand-deep)}
+.score-ring{display:flex;align-items:center;gap:12px;margin-bottom:4px}
+.score-badge{flex:none;width:58px;height:58px;border-radius:16px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;font-weight:850}
+.score-badge b{font-size:18px;line-height:1}
+.score-badge span{font-size:8.5px;margin-top:1px}
+.col2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mini{background:var(--line2);border-radius:11px;padding:10px}
+.mini .v{font-size:16px;font-weight:800;font-variant-numeric:tabular-nums}
+.mini .l{font-size:10px;color:var(--t3);margin-top:3px}
+/* 原因分析卡 */
+.why{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)}
+.why:last-child{border-bottom:none}
+.why-ic{width:30px;height:30px;border-radius:9px;flex:none;display:flex;align-items:center;justify-content:center;font-size:15px}
+.why-b{flex:1;min-width:0}
+.why-t{font-size:13px;font-weight:700;margin-bottom:4px}
+.why-c{font-size:11.5px;color:var(--t2);line-height:1.6}
+.ocean{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:750}
+.ocean-blue{background:#EAF0FF;color:#3B5BDB}
+.ocean-red{background:#FFECEC;color:#E4393C}
+.subseg{display:flex;background:#fff;border:1px solid var(--line);border-radius:12px;padding:3px;gap:3px;margin-bottom:12px}
+.subseg-item{flex:1;text-align:center;padding:8px 4px;border-radius:9px;font-size:12.5px;font-weight:700;
+  color:var(--t2);cursor:pointer;transition:.16s}
+.subseg-item.on{background:var(--brand);color:#fff}
+.entry4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:4px}
+.entry4 .e{background:var(--brand-soft);border-radius:12px;padding:12px 4px;text-align:center;cursor:pointer;transition:.16s}
+.entry4 .e:hover{background:var(--brand);color:#fff}
+.entry4 .e:hover .et{color:#fff}
+.entry4 .e:hover .ei{filter:brightness(2)}
+.entry4 .ei{font-size:20px}
+.entry4 .et{font-size:11px;font-weight:700;color:var(--brand-deep);margin-top:5px;line-height:1.3}
+.pill-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.qbox{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--line);border-radius:13px;
+  padding:12px;margin-bottom:12px;cursor:pointer}
+.qbox .qi{width:40px;height:40px;border-radius:11px;background:linear-gradient(140deg,#E9E3FF,#CFC2FF);
+  display:flex;align-items:center;justify-content:center;font-size:19px;flex:none}
+.qbox .qb{flex:1;min-width:0}
+.qbox .qt{font-size:13px;font-weight:750}
+.qbox .qs{font-size:11px;color:var(--t3);margin-top:2px}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="tb-logo">MR</div>
+  <div>
+    <span class="tb-title">美妍研 BeautyRadar</span>
+    <span class="tb-sub">行业情报与市场分析</span>
+    <span class="dot-demo">演示数据</span>
+  </div>
+  <div class="tb-sp"></div>
+  <div class="tb-note">涨 <b style="color:#E4393C">红</b> / 跌 <b style="color:#0AA06E">绿</b></div>
+  <button class="tb-btn on" id="btnInt">交互演示</button>
+  <button class="tb-btn" id="btnAll">全部页面总览</button>
+</div>
+
+<div class="stage">
+<div class="phone" id="phone">
+
+  <!-- ================= S1 首页 · 情报台 ================= -->
+  <section class="screen active" id="s-home" data-label="情报台（首页）">
+    <div class="statusbar"><span>9:41</span><span class="sb-r">▮▮▮ ᯤ ▰</span></div>
+    <div class="hero">
+      <div class="hero-in">
+        <div style="display:flex;align-items:center">
+          <div style="flex:1">
+            <div class="hero-title">情报台</div>
+            <div class="hero-sub">2026-10-06 ~ 10-12 · 已聚合 12,846 条行业信号</div>
+          </div>
+          <div class="capsule" style="border-color:rgba(255,255,255,.35);background:rgba(255,255,255,.14)">
+            <b><s style="background:#fff"></s><s style="background:#fff"></s><s style="background:#fff"></s></b>
+            <i style="border-color:#fff"></i>
+          </div>
+        </div>
+        <div class="searchbar hero" data-go="s-query">
+          <span>🔍</span><span class="sb-in">搜索品牌 / 产品 / 成分 / 备案号 / 赛道</span>
+          <span class="tag tg-brand">AI 解读</span>
+        </div>
+        <div class="kpi-row" style="margin-top:12px">
+          <div class="kpi glass"><div class="k-v">28.6<span style="font-size:10px">亿</span></div><div class="k-l">全网周GMV</div><div class="k-d">▲ 12.4%</div></div>
+          <div class="kpi glass"><div class="k-v">1,842</div><div class="k-l">上新SKU</div><div class="k-d">▲ 6.8%</div></div>
+          <div class="kpi glass"><div class="k-v">6</div><div class="k-l">蓝海机会</div><div class="k-d">本周新增 2</div></div>
+          <div class="kpi glass"><div class="k-v">87</div><div class="k-l">机会指数</div><div class="k-d">最高赛道</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="page">
+      <div class="chips" style="margin-top:2px">
+        <span class="chip on">全部</span><span class="chip">护肤</span><span class="chip">彩妆</span>
+        <span class="chip">洗护</span><span class="chip">身体护理</span><span class="chip">口腔</span>
+        <span class="chip" onclick="openSheet()">＋ 自定义</span>
+      </div>
+      <div class="sect-h"><h3>今日情报</h3><a data-go="s-news">全部 128 条 ›</a></div>
+      <div class="card tight">
+        <div class="news-item" data-go="s-news">
+          <div class="news-thumb">🧪</div>
+          <div class="news-b">
+            <div class="news-t">2026 Q3 洁面赛道复盘：氨基酸复配 + 功效叠加成主流，温和与清洁力不再是二选一</div>
+            <div class="news-m"><span class="tag tg-brand">深度调研</span><span>美研研究院</span><span>2小时前</span></div>
+          </div>
+        </div>
+        <div class="news-item" data-go="s-news">
+          <div class="news-thumb b2">📈</div>
+          <div class="news-b">
+            <div class="news-t">抖音洗护类目 9 月 GMV 同比 +34%，头皮护理成增速第一细分类目</div>
+            <div class="news-m"><span class="tag tg-accent">趋势研判</span><span>公开渠道监测</span><span>5小时前</span></div>
+          </div>
+        </div>
+        <div class="news-item" data-go="s-news">
+          <div class="news-thumb b3">⚖️</div>
+          <div class="news-b">
+            <div class="news-t">新版化妆品安全技术规范过渡期临近，防晒/美白类备案口径趋严</div>
+            <div class="news-m"><span class="tag tg-warn">合规预警</span><span>法规监测</span><span>昨天</span></div>
+          </div>
+        </div>
+        <div class="news-item" data-go="s-news">
+          <div class="news-thumb b4">🏭</div>
+          <div class="news-b">
+            <div class="news-t">代工厂端反馈：小批量柔性起订量门槛下探，新品牌试错成本降低</div>
+            <div class="news-m"><span class="tag">供应链</span><span>行业访谈</span><span>昨天</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="sect-h"><h3>趋势研判</h3><a onclick="alert('原型演示：跳转研判列表')">更多 ›</a></div>
+      <div class="card tight">
+        <div class="judge">
+          <div class="judge-no">1</div>
+          <div style="flex:1">
+            <div class="judge-t">「洗卸二合一」正在从差异化卖点变成洁面类目准入门槛</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap">
+              <span class="tag tg-up">影响度 高</span><span class="tag">置信度 中高</span><span class="tag">窗口 2-3 个季度</span></div>
+          </div>
+        </div>
+        <div class="judge">
+          <div class="judge-no">2</div>
+          <div style="flex:1">
+            <div class="judge-t">百元以下价格带「功效成分 + 温和肤感」组合仍存在供给缺口</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap">
+              <span class="tag tg-up">影响度 高</span><span class="tag">置信度 中</span><span class="tag">窗口 1 个季度</span></div>
+          </div>
+        </div>
+        <div class="judge">
+          <div class="judge-no">3</div>
+          <div style="flex:1">
+            <div class="judge-t">差评归因集中在「使用后紧绷」，保湿体系是可被验证的差异化切口</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap">
+              <span class="tag tg-up">影响度 中高</span><span class="tag">置信度 高</span><span class="tag">窗口 长期</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="sect-h"><h3>快捷入口</h3></div>
+      <div class="grid4">
+        <div class="gitem" data-go="s-rank"><div class="gi">🏆</div><div class="gt">Top100<br>榜单</div></div>
+        <div class="gitem" data-go="s-query"><div class="gi">📊</div><div class="gt">商品数据<br>查询</div></div>
+        <div class="gitem" data-go="s-review"><div class="gi">💬</div><div class="gt">评论情感<br>分析</div></div>
+        <div class="gitem" data-go="s-opp"><div class="gi">🎯</div><div class="gt">机会点<br>雷达</div></div>
+      </div>
+      <div class="card" style="margin-top:12px;cursor:pointer" data-go="s-ing">
+        <div style="display:flex;align-items:center;gap:11px">
+          <div style="width:42px;height:42px;border-radius:12px;background:linear-gradient(140deg,#6C4CF1,#9B7BFF);
+            display:flex;align-items:center;justify-content:center;font-size:20px;flex:none">🧬</div>
+          <div style="flex:1">
+            <div style="font-size:13.5px;font-weight:750">原料成分库 · 查成分 / 备案 / 产品（美修式）</div>
+            <div class="xs t3" style="margin-top:3px">查单品全成分表、安全星级、备案信息、功效与风险</div>
+          </div>
+          <span class="chev">›</span>
+        </div>
+      </div>
+      <div class="sect-h" style="margin-top:16px"><h3>行业数据看板</h3><a data-go="s-board">完整看板 ›</a></div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:10px">
+          <div>
+            <div class="sm t3">全网美妆个护周 GMV 走势（近 12 周）</div>
+            <div style="font-size:20px;font-weight:850;margin-top:4px">¥28.6<span style="font-size:12px;font-weight:700">亿</span>
+              <span style="font-size:12px;color:var(--up);font-weight:800;margin-left:6px">▲12.4%</span></div>
+          </div>
+          <div class="legend"><span><i style="background:var(--brand)"></i>全网</span><span><i style="background:var(--accent)"></i>抖音</span></div>
+        </div>
+        <div id="homeChart"></div>
+      </div>
+      <div class="trace">
+        <b>数据说明：</b>本原型所有数值均为演示数据，用于展示产品形态与信息结构，<b>不代表真实市场数据</b>。
+        正式版数据来源、统计口径与置信标注见各页底部「数据来源」与「我的 › 数据说明」。
+      </div>
+    </div>
+    <nav class="tabbar" data-nav></nav>
+  </section>
+
+  <!-- ================= S2 资讯详情 · 深度调研 ================= -->
+  <section class="screen" id="s-news" data-label="资讯详情 · 深度调研">
+    <div class="statusbar"><span>9:41</span><span class="sb-r">▮▮▮ ᯤ ▰</span></div>
+    <div class="navbar">
+      <div class="nav-back" data-back>‹</div>
+      <div class="nav-t">深度调研</div>
+      <div class="capsule"><b><s></s><s></s><s></s></b><i></i></div>
+    </div>
+    <div class="page">
+      <div class="card">
+        <div style="display:flex;gap:6px;margin-bottom:10px">
+          <span class="tag tg-brand">深度调研</span><span class="tag">洁面赛道</span>
+        </div>
+        <h2 style="margin:0 0 10px;font-size:18px;line-height:1.42;letter-spacing:-.2px">
+          2026 Q3 洁面赛道复盘：氨基酸复配 + 功效叠加成主流</h2>
+        <div class="sm t3" style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+          <span>美研研究院</span><span>2026-10-12 07:30</span><span>阅读 4,218</span>
+          <span class="tag tg-up">研报评级 A</span>
+        </div>
+        <div class="divider"></div>
+        <div class="sm" style="line-height:1.75;color:#3A3F55">
+          <b style="color:var(--brand-deep)">一句话结论：</b>洁面类目正从「单一清洁」向「清洁 + 功效 + 肤感」三维竞争迁移，
+          百元以下价格带的功效型洁面仍存在明显供给缺口。</div>
+      </div>
+      <div class="card tight">
+        <div class="sect-h" style="margin:0 0 10px"><h3 style="font-size:13px">数据锚点</h3><span class="xs t3">近 30 天</span></div>
+        <div class="kpi-row">
+          <div class="kpi" style="background:var(--line2)"><div class="k-v">+18.6%</div><div class="k-l">洁面类目GMV</div></div>
+          <div class="kpi" style="background:var(--line2)"><div class="k-v">62%</div><div class="k-l">氨基酸体系占比</div></div>
+          <div class="kpi" style="background:var(--line2)"><div class="k-v">¥98</div><div class="k-l">中位客单价</div></div>
+          <div class="kpi" style="background:var(--line2)"><div class="k-v">9.4%</div><div class="k-l">差评率中位数</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="sect-h" style="margin:0 0 8px"><h3 style="font-size:13px">一、体系结构：氨基酸复配成为事实标准</h3></div>
+        <p class="md" style="line-height:1.8;color:#3A3F55;margin:0 0 12px">
+          纯氨基酸体系在泡沫密度与洗后肤感上仍有短板，头部链接普遍采用「氨基酸 + APG / 甜菜碱」复配来弥补。
+          监测到的 TOP200 洁面链接中，<b>复配体系占比 62%</b>，同比提升 21 个百分点；纯皂基占比降至 14%。</p>
+        <div class="sm t3" style="margin-bottom:9px">洁面体系结构变化（近 4 季度，演示数据）</div>
+        <div id="newsBars"></div>
+      </div>
+      <div class="card">
+        <div class="sect-h" style="margin:0 0 8px"><h3 style="font-size:13px">二、价格带：百元线是分水岭</h3></div>
+        <p class="md" style="line-height:1.8;color:#3A3F55;margin:0">
+          ¥69–¥129 价格带的链接数量占 47%、GMV 占 41%，是竞争最密集的区间。
+          但该区间内<b>同时满足「功效成分明确标注 + 洗后不紧绷」的链接不足 12%</b>，
+          差评归因中「紧绷 / 拔干」占比高达 32%，构成本轮最主要的可切入缺口。</p>
+      </div>
+      <div class="card">
+        <div class="sect-h" style="margin:0 0 10px"><h3 style="font-size:13px">三、策略建议</h3></div>
+        <div class="factor">
+          <div class="factor-n" style="background:var(--brand-soft);color:var(--brand-deep)">1</div>
+          <div class="factor-b">
+            <div class="factor-t">优先补足保湿体系，把「洗后不紧绷」做成可验证卖点</div>
+            <div class="xs t3" style="line-height:1.6">适配：洁面乳 / 洁面慕斯 / 洁颜蜜 · 见效周期 1 个季度</div>
+          </div>
+        </div>
+        <div class="factor">
+          <div class="factor-n" style="background:var(--brand-soft);color:var(--brand-deep)">2</div>
+          <div class="factor-b">
+            <div class="factor-t">在 ¥79–¥119 区间布局「洗卸二合一」剂型，抢占准入门槛红利</div>
+            <div class="xs t3" style="line-height:1.6">适配：洁面慕斯 / 摇摇乐 · 建议先做单链接打爆</div>
+          </div>
+        </div>
+        <div class="factor">
+          <div class="factor-n" style="background:var(--brand-soft);color:var(--brand-deep)">3</div>
+          <div class="factor-b">
+            <div class="factor-t">控制香精添加与泵头体验，这两项是差评第二名与第四名来源</div>
+            <div class="xs t3" style="line-height:1.6">适配：全洁面剂型 · 属低成本高收益改进项</div>
+          </div>
+        </div>
+      </div>
+      <div class="card tight">
+        <div class="sm t3" style="margin-bottom:8px">基于本文继续探索</div>
+        <div class="li" data-go="s-rank"><div class="li-ic">🏆</div><div class="li-b"><div class="li-t">洁面品类 Top100 增长榜</div><div class="li-s">含增长点拆解（美修式）</div></div><span class="chev">›</span></div>
+        <div class="li" data-go="s-pdp"><div class="li-ic">🧬</div><div class="li-b"><div class="li-t">氨基酸洁面单品深度洞察</div><div class="li-s">成分表 / 卖点 / 好评差评 / 蓝海红海</div></div><span class="chev">›</span></div>
+        <div class="li" data-go="s-review"><div class="li-ic">💬</div><div class="li-b"><div class="li-t">查看该类目评论情感分布</div><div class="li-s">好评 / 中评 / 差评归因</div></div><span class="chev">›</span></div>
+        <div class="li" data-go="s-opp"><div class="li-ic">🎯</div><div class="li-b"><div class="li-t">对应机会点</div><div class="li-s">3 个可切入机会</div></div><span class="chev">›</span></div>
+      </div>
+      <div class="trace">
+        <b>来源与出处：</b><br>
+        · 类目 GMV / 体系结构占比：<a class="src-link" onclick="alert('演示：跳转 天猫生意参谋 公开行业大盘')">天猫生意参谋 行业大盘</a>（https://sycm.taobao.com）＋
+          <a class="src-link" onclick="alert('演示：跳转 蝉妈妈')">蝉妈妈</a>（https://www.chanmama.com）行业版，近 30 天成交口径<br>
+        · 差评归因 / 维度情感：<a class="src-link" onclick="alert('演示：跳转 评论情感分析')">本产品评论情感分析模块</a>（采样 1,000 条 / 类目，分层抽样）<br>
+        · 趋势观点（小红书 / 抖音 内容侧）：<a class="src-link" onclick="alert('演示：跳转 第三方内容平台')">小红书蒲公英</a>（https://www.xiaohongshu.com）、抖音电商罗盘（https://compass.jinritemai.com）
+          <span class="tag tg-third">第三方</span><br>
+        · 个别单品牌打法细节：行业访谈（ anonymized ），<span class="tag tg-unknown">不清楚</span> 是否含付费投放<br>
+        <b>统计口径：</b>近 30 天成交 GMV（未剔除退货）｜<b>更新时间：</b>2026-10-12 07:30｜<b>置信度：</b>中高（样本 1,842 条链接）｜演示数据
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= S3 Top100 榜单（美修式深度扩展） ================= -->
+  <section class="screen" id="s-rank" data-label="Top100 排行榜（美修式）">
+    <div class="statusbar"><span>9:41</span><span class="sb-r">▮▮▮ ᯤ ▰</span></div>
+    <div class="navbar">
+      <div class="nav-t left">Top100 排行榜</div>
+      <div class="capsule"><b><s></s><s></s><s></s></b><i></i></div>
+    </div>
+    <div class="page">
+      <div class="seg" style="margin-bottom:10px" id="segDim">
+        <div class="seg-item on" data-v="brand">品牌榜</div>
+        <div class="seg-item" data-v="product">产品榜</div>
+      </div>
+      <div class="subseg" id="segType" style="margin-bottom:10px">
+        <div class="subseg-item on" data-v="comp">综合榜</div>
+        <div class="subseg-item" data-v="rep">口碑榜</div>
+        <div class="subseg-item" data-v="sales">销量增长榜</div>
+        <div class="subseg-item" data-v="safe">成分安全榜</div>
+      </div>
+      <div class="chips" style="margin:0 -14px 10px;padding-left:14px;padding-right:14px">
+        <span class="chip on" data-dir="up">🔥 上升榜</span><span class="chip" data-dir="down">📉 下降榜</span>
+        <span class="chip" data-cat="护肤">护肤</span><span class="chip" data-cat="洗护">洗护</span>
+        <span class="chip" data-cat="彩妆">彩妆</span><span class="chip" data-cat="身体护理">身体护理</span>
+      </div>
+      <div class="notice" id="rankNotice">
+        <span>ℹ️</span>
+        <div>榜单口径：<b>近 30 天公开渠道成交 GMV 环比</b>（美修式综合口径），已剔除刷单异常值。
+          每条标注<b>增长点 / 下降原因</b>与<b>口碑 / 成分安全</b>维度，点击查看单品深度洞察。</div>
+      </div>
+      <div class="card tight"><div id="rankList"></div></div>
+      <button class="btn ghost" onclick="alert('原型演示：加载 11-100 名')">查看完整 Top100 ›</button>
+      <div class="trace" style="margin-top:12px">
+        <b>数据来源：</b><a class="src-link" onclick="alert('演示：天猫/淘宝开放平台')">天猫 / 淘宝开放平台</a>、
+          <a class="src-link" onclick="alert('演示：抖音开放平台')">抖音开放平台</a> 成交数据聚合；
+          口碑分融合 <a class="src-link" onclick="alert('演示：美丽修行')">美丽修行</a>（https://www.meili.com）公开口碑指数（<span class="tag tg-third">第三方</span> 出处）。
+        <b>更新时间：</b>2026-10-11 08:00｜<b>口径：</b>近 30 天成交 GMV 环比｜演示数据，品牌名为虚构
+      </div>
+    </div>
+    <nav class="tabbar" data-nav></nav>
+  </section>
+
+  <!-- ================= S4 单品深度洞察（氨基酸洁面乳 示例） ================= -->
+  <section class="screen" id="s-pdp" data-label="单品深度洞察（氨基酸洁面）">
+    <div class="statusbar"><span>9:41</span><span class="sb-r">▮▮▮ ᯤ ▰</span></div>
+    <div class="navbar">
+      <div class="nav-back" data-back>‹</div>
+      <div class="nav-t">单品深度洞察</div>
+      <div class="capsule"><b><s></s><s></s><s></s></b><i></i></div>
+    </div>
+    <div class="page">
+      <div class="card" style="background:linear-gradient(140deg,#F4F1FF,#FFFFFF)">
+        <div style="display:flex;align-items:flex-start;gap:12px">
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
+              <span class="tag tg-brand">洁面</span><span class="tag tg-up">在售增长</span>
+              <span class="tag" style="background:#EAF0FF;color:#3B5BDB">已备案</span>
+            </div>
+            <div style="font-size:18px;font-weight:800;line-height:1.35;letter-spacing:-.2px">氨基酸温和洁面慕斯 150ml</div>
+            <div class="sm t3" style="margin-top:6px">品牌：[演示] 澜珀 LAMPO · 天猫旗舰店 · 成交均价 ¥99.9</div>
+          </div>
+          <div style="text-align:right;flex:none">
+            <div style="font-size:22px;font-weight:850;color:var(--up);letter-spacing:-.6px">+18.6%</div>
+            <div class="xs t3">近30天环比</div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="pill-row">
+          <span class="ocean ocean-blue">🌊 细分蓝海</span>
+          <span class="tag tg-up">机会指数 82</span>
+          <span class="tag tg-brand">洗卸二合一</span>
+          <span class="tag">敏感肌可用</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="sect-h" style="margin:0 0 8px"><h3 style="font-size:13.5px">一句话结论</h3></div>
+        <p class="md" style="line-height:1.75;color:#3A3F55;margin:0">
+          该产品处于「洁面大类红海」中的<b>「氨基酸 + 洗卸二合一 + 不紧绷」细分蓝海</b>：
+          大类竞争激烈，但同时满足三项诉求的供给极少，近 30 天增长主要由抖音内容种草 + 复配保湿体系口碑驱动。</p>
+      </div>
+
+      <div class="sect-h"><h3>一、成分表（美修式全成分）</h3><span class="xs t3">按含量降序</span></div>
+      <div class="card tight" style="padding:6px 12px">
+        <table class="ing-table">
+          <thead><tr><th style="width:18px">#</th><th>成分（INCI）</th><th style="width:96px">功效 / 风险</th><th style="width:54px">安全</th></tr></thead>
+          <tbody id="ingBody"></tbody>
+        </table>
+        <div class="xs t3" style="padding:8px 4px 2px;line-height:1.6">
+          安全分 ⭐=1~5；<span class="tag it-safe" style="margin:0 2px">安全</span> 低风险，
+          <span class="tag it-risk" style="margin:0 2px">风险</span> 含潜在致敏/致痘成分。点击成分查看详情 ›
+        </div>
+        <div class="li" data-go="s-ing-filing" style="border-bottom:none;padding-bottom:2px">
+          <div class="li-ic">📄</div><div class="li-b"><div class="li-t">查看完整备案信息</div>
+          <div class="li-s">备案号 / 生产企业 / 全成分备案表 / 检测报告</div></div><span class="chev">›</span></div>
+      </div>
+
+      <div class="sect-h"><h3>二、卖点提炼</h3></div>
+      <div class="card">
+        <div class="why"><div class="why-ic" style="background:var(--brand-soft)">①</div>
+          <div class="why-b"><div class="why-t">氨基酸温和表活，敏感肌可用</div>
+            <div class="why-c">椰油酰甘氨酸钾 + 甜菜碱复配，pH 贴近肌肤，降低紧绷与刺激感。</div></div></div>
+        <div class="why"><div class="why-ic" style="background:var(--brand-soft)">②</div>
+          <div class="why-b"><div class="why-t">洗卸二合一，日常淡妆一遍净</div>
+            <div class="why-c">面向「赶时间 / 懒人」场景，免单独卸妆，内容演示门槛低。</div></div></div>
+        <div class="why"><div class="why-ic" style="background:var(--brand-soft)">③</div>
+          <div class="why-b"><div class="why-t">复配保湿体系，洗后不紧绷</div>
+            <div class="why-c">甘油 + 透明质酸钠 + 泛醇，直击类目最大差评点「紧绷拔干」。</div></div></div>
+        <div class="why" style="border-bottom:none"><div class="why-ic" style="background:var(--brand-soft)">④</div>
+          <div class="why-b"><div class="why-t">泵头慕斯质地，起泡快、体验爽</div>
+            <div class="why-c">差异化于传统膏体洁面，提升直播间与短视频的视觉表现力。</div></div></div>
+      </div>
+
+      <div class="sect-h"><h3>三、增长原因拆解（为什么卖得好）</h3><span class="xs t3">按贡献占比</span></div>
+      <div class="card">
+        <div class="factor">
+          <div class="factor-n">1</div>
+          <div class="factor-b">
+            <div class="factor-t">抖音内容种草效率高（测评 / 教程二创）</div>
+            <div class="bar-track"><div class="bar-fill" style="width:38%"></div></div>
+            <div class="xs t3" style="margin-top:4px">贡献占比 38%｜相关笔记/短视频 <span class="tag tg-third">第三方</span> 抖音/小红书 月增 2.1 万条</div>
+          </div><div class="factor-p">38%</div>
+        </div>
+        <div class="factor">
+          <div class="factor-n">2</div>
+          <div class="factor-b">
+            <div class="factor-t">复配保湿体系口碑外溢，复购拉升</div>
+            <div class="bar-track"><div class="bar-fill" style="width:27%"></div></div>
+            <div class="xs t3" style="margin-top:4px">贡献占比 27%｜复购率 31%，高于类目均值 22%</div>
+          </div><div class="factor-p">27%</div>
+        </div>
+        <div class="factor">
+          <div class="factor-n">3</div>
+          <div class="factor-b">
+            <div class="factor-t">「洗卸二合一」切入准入门槛红利</div>
+            <div class="bar-track"><div class="bar-fill" style="width:21%"></div></div>
+            <div class="xs t3" style="margin-top:4px">贡献占比 21%｜该卖点搜索同比 +35%</div>
+          </div><div class="factor-p">21%</div>
+        </div>
+        <div class="factor" style="border-bottom:none">
+          <div class="factor-n" style="background:var(--line2);color:var(--t2)">4</div>
+          <div class="factor-b">
+            <div class="factor-t">大促预售锁定需求 + 达人短代</div>
+            <div class="bar-track"><div class="bar-fill" style="width:14%;background:#C9CBDA"></div></div>
+            <div class="xs t3" style="margin-top:4px">贡献占比 14%</div>
+          </div><div class="factor-p">14%</div>
+        </div>
+        <div class="xs t3" style="margin-top:8px;line-height:1.6">
+          来源：<a class="src-link" onclick="alert('演示：抖音电商罗盘')">抖音电商罗盘</a>（成交与内容）、
+          <a class="src-link" onclick="alert('演示：蝉妈妈')">蝉妈妈</a>（https://www.chanmama.com）达人分析、
+          天猫生意参谋（复购）。<span class="tag tg-unknown">不清楚</span> 各渠道具体投放金额。</div>
+      </div>
+
+      <div class="sect-h"><h3>四、下降原因 / 风险拆解（为什么可能卖不动）</h3></div>
+      <div class="card">
+        <div class="notice" style="margin-bottom:10px"><span>⚠️</span>
+          <div>该产品当前为正增长，以下为<b>下行风险归因</b>——即若增速转负，最可能的触发因素，供提前预警。</div></div>
+        <div class="factor">
+          <div class="factor-n" style="background:var(--down-soft);color:var(--down)">1</div>
+          <div class="factor-b">
+            <div class="factor-t">中价带竞争加剧，同质化复制加速</div>
+            <div class="xs t3" style="line-height:1.6">¥79–¥129 区间在售链接同比 +41%，「氨基酸 + 二合一」卖点已被大量跟进，差异化窗口收窄。</div>
+          </div>
+        </div>
+        <div class="factor">
+          <div class="factor-n" style="background:var(--down-soft);color:var(--down)">2</div>
+          <div class="factor-b">
+            <div class="factor-t">香精致敏差评若放大，口碑分易回落</div>
+            <div class="xs t3" style="line-height:1.6">配方含香精，敏感肌差评占差评总量 18%；一旦出现集中投诉，口碑榜排名将快速下滑。</div>
+          </div>
+        </div>
+        <div class="factor" style="border-bottom:none">
+          <div class="factor-n" style="background:var(--down-soft);color:var(--down)">3</div>
+          <div class="factor-b">
+            <div class="factor-t">过度依赖单一达人/内容形态，增长可持续性存疑</div>
+            <div class="xs t3" style="line-height:1.6">若内容平台算法调整或达人合作中断，增速可能快速回落（美修式榜单中此类「投放驱动型增长」需重点标注）。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sect-h"><h3>五、好评原因分析</h3><span class="xs t3">好评率 72%</span></div>
+      <div class="card">
+        <div class="why"><div class="why-ic" style="background:var(--down-soft)">👍</div>
+          <div class="why-b"><div class="why-t">泡沫绵密、洗后不紧绷（占比最高）</div>
+            <div class="why-c">正面提及率 38%，与「复配保湿体系」卖点一致，是可被验证的口碑支点。</div></div></div>
+        <div class="why"><div class="why-ic" style="background:var(--down-soft)">👍</div>
+          <div class="why-b"><div class="why-t">洗卸二合一省事，日常淡妆可卸</div>
+            <div class="why-c">正面提及率 27%，场景化卖点转化高，是内容二创的主要素材。</div></div></div>
+        <div class="why" style="border-bottom:none"><div class="why-ic" style="background:var(--down-soft)">👍</div>
+          <div class="why-b"><div class="why-t">温和不刺激、敏感期可用</div>
+            <div class="why-c">正面提及率 19%，氨基酸表活心智已被消费者认可。</div></div></div>
+        <div class="xs t3" style="margin-top:8px;line-height:1.6">
+          来源：<a class="src-link" onclick="alert('演示：评论情感分析')">评论情感分析模块</a>（采样 1,000 条，天猫+抖音合并）；
+          第三方平台 <span class="tag tg-third">第三方</span> 小红书/抖音 测评内容交叉印证。
+          <span class="tag tg-unknown">不知道</span> 是否含品牌自养号评论。</div>
+      </div>
+
+      <div class="sect-h"><h3>六、差评原因分析</h3><span class="xs t3">差评率 9%</span></div>
+      <div class="card">
+        <div class="why"><div class="why-ic" style="background:var(--up-soft)">👎</div>
+          <div class="why-b"><div class="why-t">紧绷拔干（部分干性/混干肤质）</div>
+            <div class="why-c">占差评 32%。虽主打保湿，极端肤质仍反馈不足——说明保湿体系有上限。</div></div></div>
+        <div class="why"><div class="why-ic" style="background:var(--up-soft)">👎</div>
+          <div class="why-b"><div class="why-t">香味偏浓</div>
+            <div class="why-c">占差评 18%。配方含香精，与「敏感肌」定位存在轻微矛盾。</div></div></div>
+        <div class="why" style="border-bottom:none"><div class="why-ic" style="background:var(--up-soft)">👎</div>
+          <div class="why-b"><div class="why-t">泵头出泡需多次按压 / 包装漏液</div>
+            <div class="why-c">占差评 21%。属体验与包装问题，非配方，低成本可改进。</div></div></div>
+        <div class="xs t3" style="margin-top:8px;line-height:1.6">
+          来源：同上评论情感分析。差评归因由关键词聚类 + 人工抽样校验；
+          <span class="tag tg-unknown">不清楚</span> 差评中是否含竞品引导。</div>
+      </div>
+
+      <div class="sect-h"><h3>七、市场预判</h3></div>
+      <div class="card">
+        <p class="md" style="line-height:1.8;color:#3A3F55;margin:0">
+          氨基酸洁面大类仍处上升通道（类目 GMV 同比 <b style="color:var(--up)">+18.6%</b>），但中价带竞争已白热化；
+          「洗卸二合一 + 不紧绷」的组合卖点将在 <b>1–2 个季度内</b>从差异化变为准入门槛。
+          预判：纯靠配方复制的跟进者将快速出清，<b>能把「不紧绷」做成可演示对比内容</b>的品牌才能留住复购。
+          价格带进一步下探至 ¥59–¥79 的概率较高，需提前布局成本结构。</p>
+      </div>
+
+      <div class="sect-h"><h3>八、机会洞察</h3></div>
+      <div class="card">
+        <div class="why"><div class="why-ic" style="background:var(--accent-soft)">💡</div>
+          <div class="why-b"><div class="why-t">切入「无香精 / 低敏版」填补定位矛盾</div>
+            <div class="why-c">现有产品香精致敏差评 18%，推出无香版本可同时吃下敏感肌与「成分党」两端，且备案改动小。</div></div></div>
+        <div class="why" style="border-bottom:none"><div class="why-ic" style="background:var(--accent-soft)">💡</div>
+          <div class="why-b"><div class="why-t">以「洗后不紧绷」对比实验做内容，建立壁垒</div>
+            <div class="why-c">把差评最大痛点转为可视化内容资产，先于竞品占据该心智。</div></div></div>
+        <div class="btn ghost" style="margin-top:10px" data-go="s-opp">查看关联机会点 ›</div>
+      </div>
+
+      <div class="sect-h"><h3>九、蓝海 / 红海判断</h3></div>
+      <div class="card">
+        <div style="display:flex;gap:12px;align-items:center;margin-bottom:10px">
+          <div style="text-align:center;flex:none">
+            <div style="font-size:13px;font-weight:750">洁面大类</div>
+            <span class="ocean ocean-red" style="margin-top:4px">🔴 红海</span>
+          </div>
+          <div style="flex:1;font-size:11.5px;color:var(--t2);line-height:1.6">
+            在售 SKU 超 1.2 万、CR5 仅 19%，竞价激烈、价格内卷明显。
+          </div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center">
+          <div style="text-align:center;flex:none">
+            <div style="font-size:13px;font-weight:750">氨基酸+二合一+不紧绷</div>
+            <span class="ocean ocean-blue" style="margin-top:4px">🔵 细分蓝海</span>
+          </div>
+          <div style="flex:1;font-size:11.5px;color:var(--t2);line-height:1.6">
+            同时满足三项诉求的在售链接 <b>&lt;12%</b>，需求增速 +35% 而供给稀疏，属高机会细分。
+          </div>
+        </div>
+        <div class="xs t3" style="margin-top:10px;line-height:1.6">
+          判定依据：<a class="src-link" onclick="alert('演示：机会点雷达')">机会点雷达</a> 四象限（需求增速 × 竞争密度）；
+          阈值：增速&gt;25% 且 竞争密度&lt;40 判为蓝海。<span class="tag tg-unknown">不清楚</span> 细分赛道长期天花板。</div>
+      </div>
+
+      <div class="trace">
+        <b>数据来源（详尽标注）：</b><br>
+        · 销量 / 增速 / 价格：<a class="src-link" onclick="alert('演示：天猫开放平台')">天猫开放平台</a>、
+          <a class="src-link" onclick="alert('演示：抖音开放平台')">抖音开放平台</a> 成交数据（近 30 天）；
+          <a class="src-link" onclick="alert('演示：蝉妈妈')">蝉妈妈</a>（https://www.chanmama.com）交叉校验<br>
+        · 成分表 / 安全星级 / 备案：<a class="src-link" onclick="alert('演示：国家药监局')">国家药监局化妆品备案平台</a>（https://www.nmpa.gov.cn）、
+          <a class="src-link" onclick="alert('演示：美丽修行')">美丽修行成分库</a>（https://www.meili.com）<br>
+        · 口碑分 / 评论：本产品评论情感模块 + <span class="tag tg-third">第三方</span>
+          <a class="src-link" onclick="alert('演示：小红书')">小红书蒲公英</a>（https://www.xiaohongshu.com）、
+          <a class="src-link" onclick="alert('演示：抖音')">抖音</a> 公开测评内容<br>
+        · 公众号行业文章观点：<span class="tag tg-third">第三方</span> 多个美妆行业公众号（如「XX护肤观察」），
+          观点仅作交叉参考，<span class="tag tg-unknown">不清楚</span> 样本量与立场<br>
+        <b>统计口径：</b>成交 GMV 近 30 天环比，未剔除退货｜<b>置信度：</b>中高｜全部为演示数据，品牌与数值为虚构
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= S5 商品数据查询（层级镶嵌：商品查询 / 成分·备案库） ================= -->
+  <section class="screen" id="s-query" data-label="商品数据查询">
+    <div class="statusbar"><span>9:41</span><span class="sb-r">▮▮▮ ᯤ ▰</span></div>
+    <div class="navbar">
+      <div class="nav-t left">商品数据查询</div>
+      <div class="capsule"><b><s></s><s></s><s></s></b><i></i></div>
+    </div>
+    <div class="page">
+      <div class="subseg" id="qSub">
+        <div class="subseg-item on" data-v="sales">商品数据查询</div>
+        <div class="subseg-item" data-v="ing" onclick="go('s-ing')">成分·备案库</div>
+      </div>
+      <div id="qSales">
+        <div class="searchbar" style="margin-bottom:10px" onclick="alert('原型演示：唤起调起键盘输入')">
+          <span>🔍</span><span class="sb-in" style="color:var(--t1);font-weight:600">氨基酸温和洁面慕斯 150ml</span>
+          <span style="color:var(--t3)">✕</span>
+        </div>
+        <div class="sm t3" style="margin:0 2px 7px">数据渠道</div>
+        <div class="chips" style="margin:0 -14px 12px;padding-left:14px;padding-right:14px">
+          <span class="chip on">全网汇总</span><span class="chip">天猫</span><span class="chip">淘宝</span>
+          <span class="chip">抖音</span><span class="chip">京东</span>
+        </div>
+        <div class="card tight" style="display:flex;gap:11px;align-items:center">
+          <div style="width:62px;height:62px;border-radius:11px;background:linear-gradient(140deg,#E9E3FF,#CFC2FF);
+            display:flex;align-items:center;justify-content:center;font-size:24px;flex:none">🧴</div>
+          <div style="flex:1;min-width:0">
+            <div style="font-size:13.5px;font-weight:750;line-height:1.4;margin-bottom:4px">
+              [演示品牌] 氨基酸温和洁面慕斯 150ml 洗卸二合一</div>
+            <div class="xs t3" style="margin-bottom:6px">洁面 · 已匹配 128 个同款链接</div>
+            <div style="display:flex;gap:6px;flex-wrap:wrap">
+              <span class="tag tg-brand">天猫旗舰店</span><span class="tag">官方正品</span>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="sect-h" style="margin:0 0 12px"><h3 style="font-size:13.5px">销售数据概览</h3><span class="xs t3">近 30 天 · 全网</span></div>
+          <div class="kpi-row">
+            <div class="kpi" style="background:var(--line2)"><div class="k-v">12.4<span style="font-size:10px">万</span></div><div class="k-l">销量(件)</div></div>
+            <div class="kpi" style="background:var(--line2)"><div class="k-v">1,240<span style="font-size:10px">万</span></div><div class="k-l">销售额</div></div>
+            <div class="kpi" style="background:var(--line2)"><div class="k-v">¥99.9</div><div class="k-l">成交均价</div></div>
+            <div class="kpi" style="background:var(--line2)"><div class="k-v" style="color:var(--up)">+18.6%</div><div class="k-l">环比增速</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="sect-h" style="margin:0 0 10px"><h3 style="font-size:13.5px">销量趋势</h3><span class="xs t3">近 12 周</span></div>
+          <div id="qChart"></div>
+          <div class="legend" style="margin-top:8px">
+            <span><i style="background:var(--brand)"></i>本品销量</span>
+            <span><i style="background:var(--t3)"></i>类目中位数</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="sect-h" style="margin:0 0 10px"><h3 style="font-size:13.5px">价格带分布</h3><span class="xs t3">按链接数 / GMV</span></div>
+          <div id="priceBars"></div>
+          <div class="xs t3" style="margin-top:4px">本品位于 <b>¥99.9</b>，处于竞争最密集的 ¥69–¥129 区间中位。</div>
+        </div>
+        <div class="card">
+          <div class="sect-h" style="margin:0 0 4px"><h3 style="font-size:13.5px">渠道结构</h3><span class="xs t3">GMV 占比</span></div>
+          <div style="display:flex;align-items:center;gap:14px">
+            <div id="chanDonut" style="flex:none"></div>
+            <div style="flex:1">
+              <div style="display:flex;align-items:center;gap:7px;margin-bottom:9px"><i style="width:9px;height:9px;border-radius:3px;background:#6C4CF1;display:block"></i><span class="sm" style="flex:1">天猫</span><b class="sm">46%</b></div>
+              <div style="display:flex;align-items:center;gap:7px;margin-bottom:9px"><i style="width:9px;height:9px;border-radius:3px;background:#FF7A45;display:block"></i><span class="sm" style="flex:1">抖音</span><b class="sm">38%</b></div>
+              <div style="display:flex;align-items:center;gap:7px;margin-bottom:9px"><i style="width:9px;height:9px;border-radius:3px;background:#8FA3D9;display:block"></i><span class="sm" style="flex:1">淘宝</span><b class="sm">16%</b></div>
+              <div class="xs t3" style="line-height:1.6;border-top:1px solid var(--line);padding-top:9px">抖音占比同比 +14pt，为主要增量来源。</div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="sect-h" style="margin:0 0 8px"><h3 style="font-size:13.5px">同款竞品对比</h3><span class="xs t3">近30天</span></div>
+          <table class="tb">
+            <thead><tr><th>商品</th><th style="text-align:right">均价</th><th style="text-align:right">销量</th><th style="text-align:right">环比</th></tr></thead>
+            <tbody>
+              <tr><td><b>本品</b> 氨基酸慕斯</td><td class="num">¥99.9</td><td class="num">12.4万</td><td class="num" style="color:var(--up)">+18.6%</td></tr>
+              <tr><td>竞品 A 洁面泡沫</td><td class="num">¥89.0</td><td class="num">9.8万</td><td class="num" style="color:var(--up)">+6.2%</td></tr>
+              <tr><td>竞品 B 洁颜蜜</td><td class="num">¥129.0</td><td class="num">6.1万</td><td class="num" style="color:var(--down)">-4.1%</td></tr>
+              <tr><td>竞品 C 控油洁面</td><td class="num">¥69.0</td><td class="num">14.2万</td><td class="num" style="color:var(--up)">+11.3%</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <button class="btn ghost" data-go="s-review">查看该商品评论情感分析 ›</button>
+        <div class="trace" style="margin-top:12px">
+          <b>数据来源：</b><a class="src-link" onclick="alert('演示：天猫开放平台')">天猫/淘宝开放平台</a>、
+            <a class="src-link" onclick="alert('演示：抖音开放平台')">抖音开放平台</a> 商品页展示数据聚合｜
+            <b>统计口径：</b>近 30 天成交销量与 GMV，已对异常值做去极值处理｜<b>更新频率：</b>每日 08:00<br>
+          <b>合规说明：</b>仅通过平台官方开放接口、已授权数据服务商与用户主动授权三种途径获取数据，不绕过平台反爬机制。
+        </div>
+      </div>
+    </div>
+    <nav class="tabbar" data-nav></nav>
+  </section>
+
+  <!-- ================= S6 成分·备案库（美修式，层级镶嵌在「查询」下） ================= -->
+  <section class="screen" id="s-ing" data-label="成分·备案库（美修式）">
+    <div class="statusbar"><span>9:41</span><span class="sb-r">▮▮▮ ᯤ ▰</span></div>
+    <div class="navbar">
+      <div class="nav-back" data-back>‹</div>
+      <div class="nav-t">成分·备案库</div>
+      <div class="capsule"><b><s></s><s></s><s></s></b><i></i></div>
+    </div>
+    <div class="page">
+      <div class="qbox" onclick="alert('原型演示：输入成分/产品/备案号搜索')">
+        <div class="qi">🔍</div>
+        <div class="qb"><div class="qt">搜成分 / 产品 / 备案号</div>
+          <div class="qs">如：椰油酰甘氨酸钾 · 氨基酸洁面慕斯 · 国妆网备字……</div></div>
+        <span class="chev">›</span>
+      </div>
+      <div class="entry4">
+        <div class="e" data-go="s-ing-ing"><div class="ei">🧪</div><div class="et">查成分</div></div>
+        <div class="e" data-go="s-pdp"><div class="ei">🧴</div><div class="et">查产品</div></div>
+        <div class="e" data-go="s-ing-filing"><div class="ei">📄</div><div class="et">查备案</div></div>
+        <div class="e" onclick="go('s-ing-ing')"><div class="ei">🏆</div><div class="et">成分榜单</div></div>
+      </div>
+
+      <div class="sect-h"><h3>成分榜单（美修式）</h3><span class="xs t3">按讨论热度</span></div>
+      <div class="card tight">
+        <div class="li" data-go="s-ing-ing"><div class="li-ic">🧪</div><div class="li-b"><div class="li-t">椰油酰甘氨酸钾</div>
+          <div class="li-s">氨基酸表活 · 温和清洁 · 热门度 ★4.8</div></div><span class="chev">›</span></div>
+        <div class="li" data-go="s-ing-ing"><div class="li-ic">🧪</div><div class="li-b"><div class="li-t">透明质酸钠</div>
+          <div class="li-s">保湿 · 修护 · 热门度 ★4.7</div></div><span class="chev">›</span></div>
+        <div class="li" data-go="s-ing-ing"><div class="li-b"><div class="li-t">烟酰胺</div>
+          <div class="li-s">控油提亮 · 高浓度有刺激风险 · 热门度 ★4.5</div></div><span class="chev">›</span></div>
+        <div class="li" data-go="s-ing-ing" style="border-bottom:none"><div class="li-b"><div class="li-t">苯氧乙醇</div>
+          <div class="li-s">防腐 · 低敏 · 热门度 ★4.2</div></div><span class="chev">›</span></div>
+      </div>
+
+      <div class="sect-h"><h3>近期备案动态</h3><span class="xs t3">演示数据</span></div>
+      <div class="card tight">
+        <div class="li" data-go="s-ing-filing"><div class="li-ic">📄</div><div class="li-b"><div class="li-t">[演示]氨基酸温和洁面慕斯 150ml</div>
+          <div class="li-s">备案号 国妆网备字(沪)2026XXXX · 状态：已备案</div></div><span class="chev">›</span></div>
+        <div class="li" data-go="s-ing-filing" style="border-bottom:none"><div class="li-ic">📄</div><div class="li-b"><div class="li-t">[演示]头皮净澈精华液 100ml</div>
+          <div class="li-s">备案号 国妆网备字(浙)2026YYYY · 状态：已备案</div></div><span class="chev">›</span></div>
+      </div>
+
+      <div class="card" style="background:linear-gradient(140deg,#F0ECFF,#FFFFFF)">
+        <div style="display:flex;gap:10px;align-items:flex-start">
+          <div style="font-size:20px">🛡️</div>
+          <div class="xs t3" style="line-height:1.7">
+            <b style="color:var(--brand-deep)">数据说明：</b>成分安全星级与备案信息来自
+            <a class="src-link" onclick="alert('演示：国家药监局')">国家药监局化妆品备案平台</a>（https://www.nmpa.gov.cn）与
+            <a class="src-link" onclick="alert('演示：美丽修行')">美丽修行成分库</a>（https://www.meili.com）。
+            本页为演示数据，成分表与备案号均为<b>虚构示例</b>；正式版将对接合规数据源，不抓取受版权保护的第三方内容。
+          </div>
+        </div>
+      </div>
+      <div class="trace">
+        <b>来源：</b>国家药监局（备案/成分）｜美丽修行（成分安全指数，<span class="tag tg-third">第三方</span> 出处）｜
+        部分讨论热度引自 <span class="tag tg-third">第三方</span> 小红书/抖音 公开内容（<span class="tag tg-unknown">不清楚</span> 具体算法）｜演示数据
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= S7 成分详情（美修式单成分） ================= -->
+  <section class="screen" id="s-ing-ing" data-label="成分详情（椰油酰甘氨酸钾）">
+    <div class="statusbar"><span>9:41</span><span class="sb-r">▮▮▮ ᯤ ▰</span></div>
+    <div class="navbar">
+      <div class="nav-back" data-back>‹</div>
+      <div class="nav-t">成分详情</div>
+      <div class="capsule"><b><s></s><s></s><s></s></b><i></i></div>
+    </div>
+    <div class="page">
+      <div class="card" style="background:linear-gradient(140deg,#F4F1FF,#FFFFFF)">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:50px;height:50px;border-radius:14px;background:linear-gradient(140deg,#6C4CF1,#9B7BFF);
+            display:flex;align-items:center;justify-content:center;font-size:22px;flex:none">🧪</div>
+          <div style="flex:1">
+            <div style="font-size:17px;font-weight:800;letter-spacing:-.2px">椰油酰甘氨酸钾</div>
+            <div class="xs t3" style="margin-top:3px">Potassium Cocoyl Glycinate · 氨基酸表活</div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="score-ring">
+          <div class="score-badge" style="background:#E6F7F1;color:#0AA06E"><b>4.8</b><span>安全分</span></div>
+          <div style="flex:1">
+            <div class="mini" style="background:#E6F7F1"><div class="v" style="color:#0AA06E">低</div><div class="l">刺激风险</div></div>
+            <div class="mini" style="background:#E6F7F1;margin-top:8px"><div class="v" style="color:#0AA06E">不致痘</div><div class="l">致痘风险</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="sect-h" style="margin:0 0 8px"><h3 style="font-size:13.5px">主要功效</h3></div>
+        <div class="pill-row">
+          <span class="tag it-info">温和清洁</span><span class="tag it-info">起泡丰富</span>
+          <span class="tag it-info">低刺激</span><span class="tag it-info">洗后不紧绷</span>
+          <span class="tag it-info">适合敏感肌</span>
+        </div>
+        <p class="md" style="line-height:1.8;color:#3A3F55;margin:10px 0 0">
+          氨基酸类阴离子表活，由天然脂肪酸与甘氨酸衍生，pH 接近肌肤，清洁力适中、脱脂力弱于皂基，
+          常与两性表活（如椰油酰胺丙基甜菜碱）复配以补足泡沫与洗感。</p>
+      </div>
+      <div class="card">
+        <div class="sect-h" style="margin:0 0 8px"><h3 style="font-size:13.5px">安全性与注意事项</h3></div>
+        <div class="why"><div class="why-ic" style="background:#E6F7F1">✅</div>
+          <div class="why-b"><div class="why-t">致敏性低，适合敏感肌与儿童线</div>
+            <div class="why-c">在驻留/淋洗类均属低风险，是「氨基酸洁面」的核心卖点成分。</div></div></div>
+        <div class="why" style="border-bottom:none"><div class="why-ic" style="background:var(--warn-soft)">⚠️</div>
+          <div class="why-b"><div class="why-t">硬水环境可能与钙镁离子反应产生絮状</div>
+            <div class="why-c">配方需配合螯合剂（如 EDTA 二钠）稳定体系；<span class="tag tg-unknown">不清楚</span> 具体添加浓度。</div></div></div>
+      </div>
+      <div class="card">
+        <div class="sect-h" style="margin:0 0 8px"><h3 style="font-size:13.5px">含该成分的产品（示例）</h3></div>
+        <div class="li" data-go="s-pdp"><div class="li-ic">🧴</div><div class="li-b"><div class="li-t">氨基酸温和洁面慕斯 150ml</div>
+          <div class="li-s">排名第 1 位成分 · 含量较高</div></div><span class="chev">›</span></div>
+        <div class="li" data-go="s-pdp" style="border-bottom:none"><div class="li-ic">🧴</div><div class="li-b"><div class="li-t">[演示]舒缓氨基酸洁颜蜜</div>
+          <div class="li-s">排名第 2 位成分</div></div><span class="chev">›</span></div>
+      </div>
+      <div class="trace">
+        <b>来源：</b><a class="src-link" onclick="alert('演示：国家药监局')">国家药监局化妆品原料安全信息</a>、
+          <a class="src-link" onclick="alert('演示：美丽修行')">美丽修行成分库</a>（https://www.meili.com，<span class="tag tg-third">第三方</span> 出处）、
+          <a class="src-link" onclick="alert('演示：化妆品原料词典')">《已使用化妆品原料目录》</a>。
+        安全分/致痘等级为平台综合评估，<span class="tag tg-unknown">不清楚</span> 是否含个体不耐受案例。
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= S8 备案详情 ================= -->
+  <section class="screen" id="s-ing-filing" data-label="备案详情">
+    <div class="statusbar"><span>9:41</span><span class="sb-r">▮▮▮ ᯤ ▰</span></div>
+    <div class="navbar">
+      <div class="nav-back" data-back>‹</div>
+      <div class="nav-t">备案详情</div>
+      <div class="capsule"><b><s></s><s></s><s></s></b><i></i></div>
+    </div>
+    <div class="page">
+      <div class="card" style="background:linear-gradient(140deg,#EAF0FF,#FFFFFF)">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+          <span class="tag" style="background:#3B5BDB;color:#fff">已备案</span>
+          <span class="tag tg-safe">国产非特殊用途</span>
+        </div>
+        <div style="font-size:16px;font-weight:800;line-height:1.4">[演示] 氨基酸温和洁面慕斯 150ml</div>
+        <div class="xs t3" style="margin-top:5px">备案号：国妆网备字(沪)2026 1234 5678（虚构示例）</div>
+      </div>
+      <div class="card">
+        <div class="sect-h" style="margin:0 0 8px"><h3 style="font-size:13.5px">备案基本信息</h3></div>
+        <table class="tb">
+          <tbody>
+            <tr><td class="t3" style="width:84px">备案人</td><td>[演示] 澜珀化妆品（上海）有限公司</td></tr>
+            <tr><td class="t3">生产企业</td><td>[演示] 上海宏度精细化工（代工）</td></tr>
+            <tr><td class="t3">备案日期</td><td>2026-03-18</td></tr>
+            <tr><td class="t3">备案状态</td><td><span style="color:var(--down);font-weight:700">已备案 · 通过</span></td></tr>
+            <tr><td class="t3">功效宣称</td><td>清洁、保湿（备案凭证载明的功效摘要）</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card">
+        <div class="sect-h" style="margin:0 0 8px"><h3 style="font-size:13.5px">备案成分表（节选）</h3><span class="xs t3">与成分表一致</span></div>
+        <div class="li" data-go="s-ing-ing"><div class="li-ic">🧪</div><div class="li-b"><div class="li-t">全成分表（12 项）</div>
+          <div class="li-s">点击查看美修式成分表与单成分详情</div></div><span class="chev">›</span></div>
+        <div class="li" data-go="s-pdp" style="border-bottom:none"><div class="li-ic">🧴</div><div class="li-b"><div class="li-t">回到单品深度洞察</div>
+          <div class="li-s">成分表 / 卖点 / 蓝海红海判断</div></div><span class="chev">›</span></div>
+      </div>
+      <div class="card">
+        <div class="sect-h" style="margin:0 0 8px"><h3 style="font-size:13.5px">检测与公示</h3></div>
+        <div class="why"><div class="why-ic" style="background:#E6F7F1">📋</div>
+          <div class="why-b"><div class="why-t">毒理学相容性 / 微生物检测</div>
+            <div class="why-c">备案上传了第三方检测报告（演示）。<span class="tag tg-unknown">不清楚</span> 报告具体编号与机构。</div></div></div>
+        <div class="why" style="border-bottom:none"><div class="why-ic" style="background:#E6F7F1">🔗</div>
+          <div class="why-b"><div class="why-t">备案信息公示平台可查</div>
+            <div class="why-c">在 <a class="src-link" onclick="alert('演示：国家药监局')">国家药监局备案平台</a> 输入备案号可核验；本原型为虚构示例，仅展示结构。</div></div></div>
+      </div>
+      <div class="trace">
+        <b>来源：</b><a class="src-link" onclick="alert('演示：国家药监局')">国家药监局化妆品备案服务平台</a>（https://www.nmpa.gov.cn，官方权威来源）。
+        本页备案号、企业、检测信息均为<b>虚构演示数据</b>，用于展示信息结构；正式版以官方平台实时核验为准。
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= S9 评论情感分析 ================= -->
+  <section class="screen" id="s-review" data-label="评论情感分析">
+    <div class="statusbar"><span>9:41</span><span class="sb-r">▮▮▮ ᯤ ▰</span></div>
+    <div class="navbar">
+      <div class="nav-back" data-back>‹</div>
+      <div class="nav-t">评论情感分析</div>
+      <div class="capsule"><b><s></s><s></s><s></s></b><i></i></div>
+    </div>
+    <div class="page">
+      <div class="card tight" style="display:flex;gap:10px;align-items:center">
+        <div style="width:44px;height:44px;border-radius:10px;background:linear-gradient(140deg,#E9E3FF,#CFC2FF);
+          display:flex;align-items:center;justify-content:center;font-size:19px;flex:none">🧴</div>
+        <div style="flex:1;min-width:0">
+          <div class="md" style="font-weight:750;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
+            氨基酸温和洁面慕斯 150ml</div>
+          <div class="xs t3" style="margin-top:3px">天猫 + 抖音 双渠道合并 · 2026-09-12 ~ 2026-10-11</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="sect-h" style="margin:0 0 12px"><h3 style="font-size:13.5px">情感总览</h3><span class="xs t3">采样 1,000 条</span></div>
+        <div style="display:flex;align-items:center;gap:16px">
+          <div id="sentDonut" style="flex:none;position:relative"></div>
+          <div style="flex:1">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+              <i style="width:9px;height:9px;border-radius:3px;background:#0AA06E;display:block"></i>
+              <span class="sm" style="flex:1">好评</span><b class="md">72%</b><span class="xs t3">694条</span></div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+              <i style="width:9px;height:9px;border-radius:3px;background:#D9930A;display:block"></i>
+              <span class="sm" style="flex:1">中评</span><b class="md">19%</b><span class="xs t3">186条</span></div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <i style="width:9px;height:9px;border-radius:3px;background:#E4393C;display:block"></i>
+              <span class="sm" style="flex:1">差评</span><b class="md">9%</b><span class="xs t3">120条</span></div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center">
+          <div><div class="md" style="font-weight:800">4.61</div><div class="xs t3">平均星级</div></div>
+          <div><div class="md" style="font-weight:800;color:var(--up)">+2.4pt</div><div class="xs t3">好评率环比</div></div>
+          <div><div class="md" style="font-weight:800">8,642</div><div class="xs t3">全量评论数</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="sect-h" style="margin:0 0 12px"><h3 style="font-size:13.5px">维度情感归因</h3><span class="xs t3">净情感值</span></div>
+        <div id="dimBars"></div>
+        <div class="legend" style="margin-top:10px">
+          <span><i style="background:#0AA06E"></i>正向</span><span><i style="background:#E4393C"></i>负向</span>
+          <span class="xs t3">净情感值 = (正面提及 − 负面提及) / 总提及</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="sect-h" style="margin:0 0 12px"><h3 style="font-size:13.5px">高频关键词</h3><span class="xs t3">按提及量</span></div>
+        <div class="kw" id="kwCloud"></div>
+      </div>
+      <div class="card">
+        <div class="sect-h" style="margin:0 0 12px"><h3 style="font-size:13.5px">差评痛点 TOP5</h3><span class="xs t3">占差评比</span></div>
+        <div class="hbar"><div class="hbar-l">紧绷拔干</div><div class="hbar-track"><i style="width:32%;background:linear-gradient(90deg,#E4393C,#F4837F)"></i></div><div class="hbar-v">32%</div></div>
+        <div class="hbar"><div class="hbar-l">出泡不足</div><div class="hbar-track"><i style="width:21%;background:linear-gradient(90deg,#E4393C,#F4837F)"></i></div><div class="hbar-v">21%</div></div>
+        <div class="hbar"><div class="hbar-l">香味偏浓</div><div class="hbar-track"><i style="width:18%;background:linear-gradient(90deg,#E4393C,#F4837F)"></i></div><div class="hbar-v">18%</div></div>
+        <div class="hbar"><div class="hbar-l">包装漏液</div><div class="hbar-track"><i style="width:12%;background:linear-gradient(90deg,#E4393C,#F4837F)"></i></div><div class="hbar-v">12%</div></div>
+        <div class="hbar" style="margin-bottom:0"><div class="hbar-l">价格偏高</div><div class="hbar-track"><i style="width:9%;background:linear-gradient(90deg,#E4393C,#F4837F)"></i></div><div class="hbar-v">9%</div></div>
+        <div class="notice info" style="margin:12px 0 0">
+          <span>💡</span>
+          <div><b>机会提示：</b>「紧绷拔干」占差评 32%，指向保湿体系不足——可在配方层面直接解决、且能被消费者清晰感知。已纳入机会点雷达与单品深度洞察。</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="sect-h" style="margin:0 0 4px"><h3 style="font-size:13.5px">评论明细</h3></div>
+        <div class="seg" style="margin-bottom:6px" id="segSent">
+          <div class="seg-item on" data-v="all">全部</div>
+          <div class="seg-item" data-v="good">好评</div>
+          <div class="seg-item" data-v="mid">中评</div>
+          <div class="seg-item" data-v="bad">差评</div>
+        </div>
+        <div id="reviewList"></div>
+      </div>
+      <button class="btn ghost" data-go="s-opp">基于评论洞察查看可切入机会 ›</button>
+      <div class="trace" style="margin-top:12px">
+        <b>分析方式：</b>对公开可见评论做去重与脱敏后，按情感极性分类统计；负面归因由关键词聚类 + 人工抽样校验。
+        <b>采样：</b>分层抽样 1,000 条（好评/中评/差评按真实比例）。<br>
+        <b>来源：</b>天猫/抖音 商品评价区公开文本（平台开放接口 / 已授权）；交叉印证引自
+          <span class="tag tg-third">第三方</span> 小红书/抖音 测评内容（<span class="tag tg-unknown">不清楚</span> 是否含商业合作）。
+        仅统计公开评论文本，不采集任何用户身份信息；演示数据不含真实用户内容。
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= S10 机会点雷达 ================= -->
+  <section class="screen" id="s-opp" data-label="机会点雷达">
+    <div class="statusbar"><span>9:41</span><span class="sb-r">▮▮▮ ᯤ ▰</span></div>
+    <div class="navbar">
+      <div class="nav-t left">机会点雷达</div>
+      <div class="capsule"><b><s></s><s></s><s></s></b><i></i></div>
+    </div>
+    <div class="page">
+      <div class="card" style="background:linear-gradient(140deg,#FFF4EE,#FFFFFF);border-left:3px solid var(--accent)">
+        <div style="display:flex;align-items:center;gap:14px">
+          <div style="text-align:center;flex:none">
+            <div style="font-size:30px;font-weight:850;color:var(--accent);line-height:1;letter-spacing:-1px">87</div>
+            <div class="xs t3" style="margin-top:3px">机会指数</div>
+          </div>
+          <div style="flex:1">
+            <div class="md" style="font-weight:750;margin-bottom:4px">当前筛选范围内识别到 6 个机会点</div>
+            <div class="xs t3" style="line-height:1.6">机会指数 = 需求增速 × 供给缺口 × 竞争缓和度 × 可执行性，满分 100。</div>
+          </div>
+        </div>
+      </div>
+      <div class="sect-h"><h3>机会象限</h3><span class="xs t3">气泡大小 = 市场规模</span></div>
+      <div class="matrix-wrap" id="matrix"></div>
+      <div class="legend" style="margin:8px 2px 14px;gap:12px">
+        <span><i style="background:#6C4CF1;opacity:.5"></i>蓝海机会区（高增速 · 低竞争）</span>
+        <span><i style="background:#E4393C;opacity:.4"></i>红海竞争区（低增速 · 高竞争）</span>
+      </div>
+      <div class="sect-h"><h3>机会点列表</h3><span class="xs t3">按机会指数排序</span></div>
+      <div class="opp hot" data-go="s-oppdetail">
+        <div class="opp-h"><div><div class="opp-t">头皮清洁乳（头皮护理前置化）</div>
+          <div class="xxs xs t3" style="margin-top:4px">洗护 · 头皮护理细类</div></div>
+          <div class="opp-score"><b>87</b><span>机会指数</span></div></div>
+        <div class="opp-line"><b>依据：</b>搜索需求同比 +42%；在售有效 SKU 仅约 320 个，头部集中度低；¥69–¥129 价格带近乎空白。</div>
+        <div class="opp-line"><b>切入建议：</b>以「控油 + 舒缓」双诉求单链接切入，剂型走乳霜质地，客单定在 ¥79–¥99。</div>
+        <div class="opp-foot"><span class="tag tg-up">需求增速 高</span><span class="tag tg-brand">竞争 低</span><span class="tag tg-accent">窗口 约 2 个季度</span></div>
+      </div>
+      <div class="opp hot" data-go="s-oppdetail">
+        <div class="opp-h"><div><div class="opp-t">洗卸二合一洁面慕斯</div>
+          <div class="xxs xs t3" style="margin-top:4px">护肤 · 洁面细类</div></div>
+          <div class="opp-score"><b>82</b><span>机会指数</span></div></div>
+        <div class="opp-line"><b>依据：</b>搜索需求 +35%；差评中「二次清洁麻烦」提及率上升；供给以高价进口品为主。</div>
+        <div class="opp-line"><b>切入建议：</b>主打「一步卸净日常妆 + 不紧绷」，用泵头出泡体验做内容差异点。</div>
+        <div class="opp-foot"><span class="tag tg-up">需求增速 高</span><span class="tag tg-brand">竞争 较低</span><span class="tag tg-accent">窗口 约 2-3 个季度</span></div>
+      </div>
+      <div class="opp">
+        <div class="opp-h"><div><div class="opp-t">百元以下功效型洁面（保湿体系升级）</div>
+          <div class="xs t3" style="margin-top:4px">护肤 · 洁面细类</div></div>
+          <div class="opp-score"><b>76</b><span>机会指数</span></div></div>
+        <div class="opp-line"><b>依据：</b>品类差评中「紧绷拔干」占 32%，但仅 12% 链接明确标注保湿体系。</div>
+        <div class="opp-line"><b>切入建议：</b>配方端补足保湿剂组合，前端把「洗后不紧绷」做成可演示的对比内容。</div>
+        <div class="opp-foot"><span class="tag tg-up">需求增速 中</span><span class="tag tg-warn">竞争 较高</span><span class="tag">改进型机会</span></div>
+      </div>
+      <div class="opp">
+        <div class="opp-h"><div><div class="opp-t">婴童洗护温和体系平替</div>
+          <div class="xs t3" style="margin-top:4px">洗护 · 婴童细类</div></div>
+          <div class="opp-score"><b>71</b><span>机会指数</span></div></div>
+        <div class="opp-line"><b>依据：</b>需求增速 +22%，竞争密度低；但备案与安全评估门槛高、决策链长。</div>
+        <div class="opp-line"><b>风险：</b>合规成本高，不建议作为首发布局方向。</div>
+        <div class="opp-foot"><span class="tag tg-up">需求增速 中</span><span class="tag tg-brand">竞争 低</span><span class="tag tg-warn">门槛 高</span></div>
+      </div>
+      <div class="opp">
+        <div class="opp-h"><div><div class="opp-t">香氛型身体护理（礼盒化）</div>
+          <div class="xs t3" style="margin-top:4px">身体护理 · 身体乳细类</div></div>
+          <div class="opp-score"><b>68</b><span>机会指数</span></div></div>
+        <div class="opp-line"><b>依据：</b>增速 +29%，但内容同质化严重，竞争密度 52，需靠香型与视觉突围。</div>
+        <div class="opp-foot"><span class="tag tg-up">需求增速 中高</span><span class="tag tg-warn">竞争 中高</span></div>
+      </div>
+      <button class="btn ghost" onclick="alert('原型演示：加载 7-20 个机会点')">查看更多机会点 ›</button>
+      <div class="trace" style="margin-top:12px">
+        <b>识别逻辑：</b>综合「搜索与成交需求增速 + 评论痛点集中度 + 在售供给密度 + 价格带空白 + 合规可执行性」五维加权。
+        <b>来源：</b>各维度数据来自前述榜单/评论/查询模块；<span class="tag tg-unknown">不清楚</span> 部分细分赛道的真实天花板。
+      </div>
+    </div>
+    <nav class="tabbar" data-nav></nav>
+  </section>
+
+  <!-- ================= S11 机会点详情 · 依据链 ================= -->
+  <section class="screen" id="s-oppdetail" data-label="机会点详情 · 依据链">
+    <div class="statusbar"><span>9:41</span><span class="sb-r">▮▮▮ ᯤ ▰</span></div>
+    <div class="navbar">
+      <div class="nav-back" data-back>‹</div>
+      <div class="nav-t">机会点详情</div>
+      <div class="capsule"><b><s></s><s></s><s></s></b><i></i></div>
+    </div>
+    <div class="page">
+      <div class="card" style="background:linear-gradient(140deg,#FFF4EE,#FFFFFF);border-left:3px solid var(--accent)">
+        <div style="display:flex;align-items:flex-start;gap:14px">
+          <div style="flex:1">
+            <div style="display:flex;gap:6px;margin-bottom:8px">
+              <span class="tag tg-accent">机会点 #01</span><span class="tag">洗护 · 头皮护理</span>
+            </div>
+            <div style="font-size:18px;font-weight:800;line-height:1.35;letter-spacing:-.2px">头皮清洁乳<br>（头皮护理前置化）</div>
+          </div>
+          <div style="text-align:center;flex:none">
+            <div style="font-size:30px;font-weight:850;color:var(--accent);line-height:1;letter-spacing:-1px">87</div>
+            <div class="xs t3" style="margin-top:4px">机会指数</div>
+          </div>
+        </div>
+      </div>
+      <div class="sect-h"><h3>依据链（可溯源）</h3><span class="xs t3">四步验证</span></div>
+      <div class="card">
+        <div class="factor">
+          <div class="factor-n" style="background:var(--brand-soft);color:var(--brand-deep)">1</div>
+          <div class="factor-b">
+            <div class="factor-t">需求侧：搜索与成交需求同步走高</div>
+            <div class="xs t3" style="line-height:1.65">「头皮清洁 / 头皮出油」相关搜索同比 <b style="color:var(--up)">+42%</b>，
+              细类成交 GMV 同比 <b style="color:var(--up)">+47.6%</b>。<br>来源：公开渠道搜索与成交数据聚合</div>
+          </div>
+        </div>
+        <div class="factor">
+          <div class="factor-n" style="background:var(--brand-soft);color:var(--brand-deep)">2</div>
+          <div class="factor-b">
+            <div class="factor-t">痛点侧：现有供给的差评集中且可解决</div>
+            <div class="xs t3" style="line-height:1.65">洗发类目差评中「头皮油腻 / 瘙痒」提及率同比 <b style="color:var(--up)">+58%</b>，
+              但主打头皮护理的产品仅占在售链接 <b>3.1%</b>。<br>来源：评论情感分析（采样 1,000 条 / 类目）</div>
+          </div>
+        </div>
+        <div class="factor">
+          <div class="factor-n" style="background:var(--brand-soft);color:var(--brand-deep)">3</div>
+          <div class="factor-b">
+            <div class="factor-t">供给侧：竞争尚未拥挤</div>
+            <div class="xs t3" style="line-height:1.65">在售有效 SKU 约 <b>320 个</b>，CR5 集中度 <b>28%</b>（低集中），
+              竞争密度评分 30 / 100。<br>来源：公开渠道在售商品监测</div>
+          </div>
+        </div>
+        <div class="factor">
+          <div class="factor-n" style="background:var(--brand-soft);color:var(--brand-deep)">4</div>
+          <div class="factor-b">
+            <div class="factor-t">价格空间：中价带存在明显空白</div>
+            <div class="xs t3" style="line-height:1.65">主流集中在 ¥39–¥59 与 ¥159+ 两端，
+              <b>¥69–¥129 区间链接占比仅 7%</b>，构成本轮最清晰的价格切口。</div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="sect-h" style="margin:0 0 10px"><h3 style="font-size:13.5px">建议切入方案</h3></div>
+        <table class="tb">
+          <tbody>
+            <tr><td class="t3" style="width:76px">产品形态</td><td>乳霜质地头皮清洁乳 / 精华乳，可免洗或短时冲洗</td></tr>
+            <tr><td class="t3">核心诉求</td><td>控油 + 舒缓（止痒感），避开「去屑」这类已充分竞争的窄诉求</td></tr>
+            <tr><td class="t3">价格定位</td><td>¥79–¥99（100ml–150ml），填充中价带空白</td></tr>
+            <tr><td class="t3">成分方向</td><td>温和表活体系 + 舒缓类植物提取物，突出「头皮也是皮肤」的护理逻辑</td></tr>
+            <tr><td class="t3">首发渠道</td><td>抖音单链接打爆 → 天猫承接搜索，避免一开始就铺全渠道</td></tr>
+            <tr><td class="t3">内容切口</td><td>用「头皮出油导致发根塌」的对比可视化做内容，而非堆成分</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card">
+        <div class="sect-h" style="margin:0 0 10px"><h3 style="font-size:13.5px">风险与不确定性</h3></div>
+        <div class="notice" style="margin-bottom:8px"><span>⚠️</span>
+          <div><b>品类教育成本：</b>消费者对「头皮清洁乳」的认知仍在建立期，需要内容投入，短期转化可能低于传统洗发水。</div></div>
+        <div class="notice" style="margin-bottom:0"><span>⚠️</span>
+          <div><b>数据置信度有限：</b>细类样本量偏小，头部品牌若在该季度集中推新，竞争密度评分可能在 1-2 个季度内快速变化。</div></div>
+      </div>
+      <div class="card">
+        <div class="sect-h" style="margin:0 0 10px"><h3 style="font-size:13.5px">机会指数构成</h3></div>
+        <div class="hbar"><div class="hbar-l">需求增速</div><div class="hbar-track"><i style="width:92%;background:linear-gradient(90deg,#6C4CF1,#9B7BFF)"></i></div><div class="hbar-v">92</div></div>
+        <div class="hbar"><div class="hbar-l">供给缺口</div><div class="hbar-track"><i style="width:88%;background:linear-gradient(90deg,#6C4CF1,#9B7BFF)"></i></div><div class="hbar-v">88</div></div>
+        <div class="hbar"><div class="hbar-l">竞争缓和</div><div class="hbar-track"><i style="width:85%;background:linear-gradient(90deg,#6C4CF1,#9B7BFF)"></i></div><div class="hbar-v">85</div></div>
+        <div class="hbar" style="margin-bottom:0"><div class="hbar-l">可执行性</div><div class="hbar-track"><i style="width:78%;background:linear-gradient(90deg,#6C4CF1,#9B7BFF)"></i></div><div class="hbar-v">78</div></div>
+        <div class="xs t3" style="margin-top:10px;line-height:1.6">加权：需求增速 35% · 供给缺口 25% · 竞争缓和 20% · 可执行性 20%</div>
+      </div>
+      <div style="display:flex;gap:10px">
+        <button class="btn line" style="flex:1" onclick="alert('原型演示：导出为该机会点的策略简报')">导出简报</button>
+        <button class="btn" style="flex:1.4" onclick="alert('原型演示：加入监控，异动时推送')">加入监控</button>
+      </div>
+      <div class="trace" style="margin-top:12px"><b>更新时间：</b>2026-10-11 08:00｜<b>综合置信度：</b>中高｜
+        指数模型 v1.0（权重可在「我的 › 指标设置」中调整）｜演示数据</div>
+    </div>
+  </section>
+
+  <!-- ================= S12 行业数据看板 ================= -->
+  <section class="screen" id="s-board" data-label="行业数据看板">
+    <div class="statusbar"><span>9:41</span><span class="sb-r">▮▮▮ ᯤ ▰</span></div>
+    <div class="navbar">
+      <div class="nav-back" data-back>‹</div>
+      <div class="nav-t">行业数据看板</div>
+      <div class="capsule"><b><s></s><s></s><s></s></b><i></i></div>
+    </div>
+    <div class="page">
+      <div class="chips" style="margin:0 -14px 12px;padding-left:14px;padding-right:14px">
+        <span class="chip on">美妆个护</span><span class="chip">护肤</span><span class="chip">洗护</span><span class="chip">彩妆</span>
+      </div>
+      <div class="seg" style="margin-bottom:12px">
+        <div class="seg-item">近7天</div><div class="seg-item on">近30天</div><div class="seg-item">近90天</div>
+      </div>
+      <div class="card">
+        <div class="sect-h" style="margin:0 0 12px"><h3 style="font-size:13.5px">核心指标</h3><span class="xs t3">vs 上期</span></div>
+        <div class="kpi-row" style="margin-bottom:8px">
+          <div class="kpi" style="background:var(--line2);grid-column:span 2">
+            <div class="k-v" style="color:var(--up)">+12.4%</div><div class="k-l">大盘 GMV 增速（环比）</div></div>
+          <div class="kpi" style="background:var(--line2);grid-column:span 2">
+            <div class="k-v" style="color:var(--up)">+6.8%</div><div class="k-l">上新 SKU 增速</div></div>
+        </div>
+        <div class="kpi-row">
+          <div class="kpi" style="background:var(--line2)"><div class="k-v">9.2%</div><div class="k-l">平均差评率</div></div>
+          <div class="kpi" style="background:var(--line2)"><div class="k-v">¥102</div><div class="k-l">中位客单</div></div>
+          <div class="kpi" style="background:var(--line2)"><div class="k-v">1,842</div><div class="k-l">上新链接数</div></div>
+          <div class="kpi" style="background:var(--line2)"><div class="k-v">6</div><div class="k-l">蓝海机会数</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="sect-h" style="margin:0 0 8px"><h3 style="font-size:13.5px">渠道结构（近12周 GMV 走势）</h3></div>
+        <div id="boardChart"></div>
+        <div class="legend" style="margin-top:8px">
+          <span><i style="background:var(--brand)"></i>天猫</span>
+          <span><i style="background:var(--accent)"></i>抖音</span>
+          <span><i style="background:#8FA3D9"></i>淘宝</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="sect-h" style="margin:0 0 12px"><h3 style="font-size:13.5px">细类增速 TOP5</h3><span class="xs t3">GMV 同比</span></div>
+        <div class="hbar"><div class="hbar-l">头皮护理</div><div class="hbar-track"><i style="width:94%;background:linear-gradient(90deg,#6C4CF1,#9B7BFF)"></i></div><div class="hbar-v">+47.6%</div></div>
+        <div class="hbar"><div class="hbar-l">卸妆膏</div><div class="hbar-track"><i style="width:74%;background:linear-gradient(90deg,#6C4CF1,#9B7BFF)"></i></div><div class="hbar-v">+36.2%</div></div>
+        <div class="hbar"><div class="hbar-l">香氛身体</div><div class="hbar-track"><i style="width:60%;background:linear-gradient(90deg,#6C4CF1,#9B7BFF)"></i></div><div class="hbar-v">+29.4%</div></div>
+        <div class="hbar"><div class="hbar-l">洁颜蜜</div><div class="hbar-track"><i style="width:52%;background:linear-gradient(90deg,#6C4CF1,#9B7BFF)"></i></div><div class="hbar-v">+25.8%</div></div>
+        <div class="hbar" style="margin-bottom:0"><div class="hbar-l">次抛精华</div><div class="hbar-track"><i style="width:38%;background:linear-gradient(90deg,#6C4CF1,#9B7BFF)"></i></div><div class="hbar-v">+18.6%</div></div>
+      </div>
+      <div class="card">
+        <div class="sect-h" style="margin:0 0 12px"><h3 style="font-size:13.5px">细类下滑 TOP5</h3><span class="xs t3">GMV 同比</span></div>
+        <div class="hbar"><div class="hbar-l">皂基洁面</div><div class="hbar-track"><i style="width:56%;background:linear-gradient(90deg,#0AA06E,#7FD6B7)"></i></div><div class="hbar-v">-28.4%</div></div>
+        <div class="hbar"><div class="hbar-l">普通沐浴露</div><div class="hbar-track"><i style="width:38%;background:linear-gradient(90deg,#0AA06E,#7FD6B7)"></i></div><div class="hbar-v">-19.2%</div></div>
+        <div class="hbar"><div class="hbar-l">单色眼影</div><div class="hbar-track"><i style="width:30%;background:linear-gradient(90deg,#0AA06E,#7FD6B7)"></i></div><div class="hbar-v">-15.6%</div></div>
+        <div class="hbar"><div class="hbar-l">洗面奶(基础款)</div><div class="hbar-track"><i style="width:24%;background:linear-gradient(90deg,#0AA06E,#7FD6B7)"></i></div><div class="hbar-v">-12.1%</div></div>
+        <div class="hbar" style="margin-bottom:0"><div class="hbar-l">气垫BB</div><div class="hbar-track"><i style="width:18%;background:linear-gradient(90deg,#0AA06E,#7FD6B7)"></i></div><div class="hbar-v">-9.4%</div></div>
+      </div>
+      <div class="card">
+        <div class="sect-h" style="margin:0 0 10px"><h3 style="font-size:13.5px">本周期洞察摘要</h3></div>
+        <div class="judge">
+          <div class="judge-no">1</div>
+          <div style="flex:1"><div class="judge-t">护理前置化：头皮、身体等「非面部」护理细类增速全面跑赢面部基础护理</div>
+            <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap"><span class="tag tg-up">强信号</span><span class="tag">多品类共振</span></div></div>
+        </div>
+        <div class="judge">
+          <div class="judge-no">2</div>
+          <div style="flex:1"><div class="judge-t">功效叠加成标配：单一功效诉说的转化效率持续下降</div>
+            <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap"><span class="tag tg-up">中强信号</span><span class="tag">内容端已验证</span></div></div>
+        </div>
+        <div class="judge">
+          <div class="judge-no">3</div>
+          <div style="flex:1"><div class="judge-t">抖音占比持续抬升，但投产比波动放大，投放依赖型增长可持续性存疑</div>
+          <div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap"><span class="tag tg-warn">需持续观察</span></div></div>
+        </div>
+      </div>
+      <button class="btn ghost" onclick="alert('原型演示：导出本期数据看板为报表')">导出本期报表</button>
+      <div class="trace" style="margin-top:12px">
+        <b>数据来源：</b>公开渠道数据聚合（天猫/淘宝/抖音，平台开放接口 / 已授权数据服务商）；
+          增速对比引自 <span class="tag tg-third">第三方</span> 蝉妈妈、飞瓜行业版（<span class="tag tg-unknown">不清楚</span> 是否含品牌自播数据）。
+        <b>更新时间：</b>2026-10-11 08:00｜演示数据
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= S13 我的 ================= -->
+  <section class="screen" id="s-mine" data-label="我的 · 订阅与设置">
+    <div class="statusbar"><span>9:41</span><span class="sb-r">▮▮▮ ᯤ ▰</span></div>
+    <div class="navbar plain">
+      <div class="nav-t left" style="font-size:15.5px">我的</div>
+      <div class="capsule"><b><s></s><s></s><s></s></b><i></i></div>
+    </div>
+    <div class="page flush">
+      <div style="background:linear-gradient(150deg,#6C4CF1,#9B7BFF);padding:6px 16px 26px;margin-bottom:-14px">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:50px;height:50px;border-radius:16px;background:rgba(255,255,255,.24);
+            display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:800;color:#fff;flex:none">修</div>
+          <div style="flex:1">
+            <div style="color:#fff;font-size:16px;font-weight:750">张修海</div>
+            <div style="color:rgba(255,255,255,.78);font-size:11.5px;margin-top:3px">行业从业者 · 专业版（演示）</div>
+          </div>
+          <span class="tag" style="background:rgba(255,255,255,.2);color:#fff">V1.0 内测</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);text-align:center;margin-top:18px">
+          <div><div style="color:#fff;font-size:17px;font-weight:800">5</div><div style="color:rgba(255,255,255,.75);font-size:10.5px">关注品牌</div></div>
+          <div><div style="color:#fff;font-size:17px;font-weight:800">2</div><div style="color:rgba(255,255,255,.75);font-size:10.5px">订阅专栏</div></div>
+          <div><div style="color:#fff;font-size:17px;font-weight:800">4</div><div style="color:rgba(255,255,255,.75);font-size:10.5px">策略简报</div></div>
+        </div>
+      </div>
+      <div style="padding:0 14px">
+        <div class="card">
+          <div class="sect-h" style="margin:0 0 4px"><h3 style="font-size:13.5px">我的订阅</h3><a onclick="alert('原型演示：订阅管理')">管理 ›</a></div>
+          <div class="li"><div class="li-ic">📮</div><div class="li-b"><div class="li-t">洁面赛道周报</div><div class="li-s">每周一 09:00 推送</div></div><span class="tag tg-up">已开启</span></div>
+          <div class="li"><div class="li-ic">🔔</div><div class="li-b"><div class="li-t">关键词监控：头皮清洁 / 洗卸二合一</div><div class="li-s">异动即时推送（阈值可设）</div></div><span class="tag tg-up">已开启</span></div>
+          <div class="li" style="border-bottom:none"><div class="li-ic">🏷️</div><div class="li-b"><div class="li-t">竞品品牌监控</div><div class="li-s">上新 / 调价 / 榜单异动</div></div><span class="tag">未开启</span></div>
+        </div>
+        <div class="card">
+          <div class="sect-h" style="margin:0 0 4px"><h3 style="font-size:13.5px">数据源与授权</h3><a onclick="alert('原型演示：授权管理')">管理 ›</a></div>
+          <div class="li"><div class="li-ic">🛍️</div><div class="li-b"><div class="li-t">天猫 / 淘宝 开放平台</div><div class="li-s">用于商品与销量数据</div></div><span class="tag tg-up">已接入</span></div>
+          <div class="li"><div class="li-ic">🎵</div><div class="li-b"><div class="li-t">抖音开放平台 / 数据服务商</div><div class="li-s">用于内容与直播数据</div></div><span class="tag tg-warn">待授权</span></div>
+          <div class="li"><div class="li-ic">📄</div><div class="li-b"><div class="li-t">国家药监局备案平台</div><div class="li-s">成分 / 备案权威来源</div></div><span class="tag tg-up">已接入</span></div>
+          <div class="li" style="border-bottom:none"><div class="li-ic">🧬</div><div class="li-b"><div class="li-t">美丽修行等第三方成分库</div><div class="li-s">安全星级 / 口碑（第三方出处）</div></div><span class="tag tg-third">第三方</span></div>
+          <div class="notice info" style="margin:10px 0 0"><span>🛡️</span>
+            <div><b>合规声明：</b>本产品仅通过平台官方开放接口、已授权数据服务商及用户主动授权三种途径获取数据；
+              不绕过平台反爬机制，不采集用户个人身份信息。部分平台数据受其服务条款限制，展示范围与频次以授权为准。</div></div>
+        </div>
+        <div class="card">
+          <div class="sect-h" style="margin:0 0 4px"><h3 style="font-size:13.5px">我的产出</h3></div>
+          <div class="li"><div class="li-ic">📑</div><div class="li-b"><div class="li-t">策略简报</div><div class="li-s">已生成 4 份</div></div><span class="chev">›</span></div>
+          <div class="li" style="border-bottom:none"><div class="li-ic">📤</div><div class="li-b"><div class="li-t">导出报表</div><div class="li-s">已导出 2 份</div></div><span class="chev">›</span></div>
+        </div>
+        <div class="card">
+          <div class="sect-h" style="margin:0 0 4px"><h3 style="font-size:13.5px">偏好设置</h3></div>
+          <div class="li"><div class="li-ic">🎨</div><div class="li-b"><div class="li-t">涨跌配色约定</div><div class="li-s">涨红跌绿（中国市场惯例）</div></div><span class="chev">›</span></div>
+          <div class="li"><div class="li-ic">📊</div><div class="li-b"><div class="li-t">机会指数权重</div><div class="li-s">需求35% · 供给25% · 竞争20% · 执行20%</div></div><span class="chev">›</span></div>
+          <div class="li" style="border-bottom:none"><div class="li-ic">🧭</div><div class="li-b"><div class="li-t">默认行业与品类</div><div class="li-s">美妆个护 › 护肤 / 洗护</div></div><span class="chev">›</span></div>
+        </div>
+        <div class="card">
+          <div class="sect-h" style="margin:0 0 4px"><h3 style="font-size:13.5px">关于</h3></div>
+          <div class="li" style="border-bottom:none"><div class="li-ic">ℹ️</div><div class="li-b"><div class="li-t">数据说明与免责声明</div><div class="li-s">口径 / 更新频率 / 置信度标注</div></div><span class="chev">›</span></div>
+        </div>
+        <div class="trace" style="margin-bottom:12px">本原型为产品演示用途，全部数据均为模拟数据，品牌名称均为虚构，不构成任何投资或经营建议。
+          第三方数据（抖音/小红书/公众号等）仅标注出处，不代表本产品已获其授权。</div>
+      </div>
+    </div>
+    <nav class="tabbar" data-nav></nav>
+  </section>
+
+</div>
+</div>
+
+<div class="gallery" id="gallery"></div>
+<script src="data.js"></script>
+<script>
+/* ===================== 美妍研 · 交互逻辑 ===================== */
+(function(){
+  "use strict";
+
+  /* ---------- 顶部 5 Tab 定义 ---------- */
+  var NAV=[
+    {id:'s-home', label:'情报', icon:'📡'},
+    {id:'s-rank', label:'榜单', icon:'🏆'},
+    {id:'s-query',label:'查询', icon:'🔍'},
+    {id:'s-opp',  label:'机会', icon:'🎯'},
+    {id:'s-mine', label:'我的', icon:'👤'}
+  ];
+  // 哪些页面高亮哪个 Tab
+  var TABOF={
+    's-home':'s-home','s-rank':'s-rank','s-query':'s-query','s-ing':'s-query',
+    's-ing-ing':'s-query','s-ing-filing':'s-query','s-opp':'s-opp',
+    's-oppdetail':'s-opp','s-mine':'s-mine'
+  };
+
+  /* ---------- 路由 ---------- */
+  var stack=[];
+  function show(id){
+    var el=document.getElementById(id); if(!el) return;
+    var all=document.querySelectorAll('.screen');
+    for(var i=0;i<all.length;i++) all[i].classList.remove('active');
+    el.classList.add('active');
+    var pg=el.querySelector('.page'); if(pg) pg.scrollTop=0;
+    setActiveTab(id);
+  }
+  function go(id){ var cur=document.querySelector('.screen.active'); if(cur) stack.push(cur.id); show(id); }
+  function back(){ var id=stack.pop(); if(id) show(id); else show('s-home'); }
+
+  function setActiveTab(sid){
+    var cur=TABOF[sid]||sid;
+    var navs=document.querySelectorAll('[data-nav]');
+    for(var n=0;n<navs.length;n++){
+      var kids=navs[n].children;
+      for(var k=0;k<kids.length;k++) kids[k].classList.toggle('on', kids[k].getAttribute('data-tab')===cur);
+    }
+  }
+
+  function injectTabbars(){
+    var navs=document.querySelectorAll('[data-nav]');
+    var html='';
+    for(var i=0;i<NAV.length;i++){
+      html+='<div class="tab" data-tab="'+NAV[i].id+'"><div style="font-size:19px;line-height:1">'+NAV[i].icon+'</div><div>'+NAV[i].label+'</div></div>';
+    }
+    for(var n=0;n<navs.length;n++) navs[n].innerHTML=html;
+  }
+
+  /* ---------- 事件委托：Tab / data-go / data-back ---------- */
+  document.addEventListener('click', function(e){
+    var tb=e.target.closest('[data-tab]'); if(tb){ go(tb.getAttribute('data-tab')); e.preventDefault(); return; }
+    var t=e.target.closest('[data-go]');  if(t){ go(t.getAttribute('data-go'));  return; }
+    var b=e.target.closest('[data-back]');if(b){ back(); return; }
+  });
+
+  /* ===================== 图表工具（纯 SVG） ===================== */
+  function lineChart(id, series, opt){
+    opt=opt||{};
+    var W=315,H=150,p={l:30,r:12,t:12,b:18};
+    var iw=W-p.l-p.r, ih=H-p.t-p.b;
+    var max=-1e9,min=1e9;
+    for(var s=0;s<series.length;s++) for(var i=0;i<series[s].data.length;i++){ var v=series[s].data[i]; if(v>max)max=v; if(v<min)min=v; }
+    if(opt.min0) min=0;
+    max=max*1.08; if(max===min) max=min+1;
+    var n=series[0].data.length;
+    function X(i){ return p.l+iw*i/(n-1); }
+    function Y(v){ return p.t+ih*(1-(v-min)/(max-min)); }
+    var g='';
+    for(var gg=0;gg<=3;gg++){ var y=p.t+ih*gg/3; g+='<line x1="'+p.l+'" y1="'+y+'" x2="'+(W-p.r)+'" y2="'+y+'" stroke="#EDEFF5"/>'; }
+    var paths='';
+    for(s=0;s<series.length;s++){
+      var d=''; for(i=0;i<n;i++){ d+=(i?'L':'M')+X(i).toFixed(1)+' '+Y(series[s].data[i]).toFixed(1)+' '; }
+      if(series[s].fill) paths+='<path d="'+d+'L'+X(n-1).toFixed(1)+' '+(p.t+ih)+' L'+X(0).toFixed(1)+' '+(p.t+ih)+' Z" fill="'+series[s].color+'" opacity="0.10"/>';
+      paths+='<path d="'+d+'" fill="none" stroke="'+series[s].color+'" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>';
+      if(series[s].dots) for(i=0;i<n;i++) paths+='<circle cx="'+X(i).toFixed(1)+'" cy="'+Y(series[s].data[i]).toFixed(1)+'" r="2" fill="'+series[s].color+'"/>';
+    }
+    document.getElementById(id).innerHTML='<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto">'+g+paths+'</svg>';
+  }
+
+  function donut(id, data, center){
+    var size=84,r=30,c=size/2;
+    var total=0; for(var i=0;i<data.length;i++) total+=data[i].value;
+    var ang=-Math.PI/2, segs='';
+    for(i=0;i<data.length;i++){
+      var a2=ang+(data[i].value/total)*Math.PI*2;
+      var x1=c+r*Math.cos(ang), y1=c+r*Math.sin(ang), x2=c+r*Math.cos(a2), y2=c+r*Math.sin(a2);
+      var large=(a2-ang)>Math.PI?1:0;
+      segs+='<path d="M'+c+' '+c+' L'+x1.toFixed(2)+' '+y1.toFixed(2)+' A'+r+' '+r+' 0 '+large+' 1 '+x2.toFixed(2)+' '+y2.toFixed(2)+' Z" fill="'+data[i].color+'"/>';
+      ang=a2;
+    }
+    var ct = center? '<text x="'+c+'" y="'+(c+4)+'" text-anchor="middle" font-size="15" font-weight="800" fill="#1A1D2E">'+center+'</text>':'';
+    document.getElementById(id).innerHTML='<svg viewBox="0 0 '+size+' '+size+'" width="'+size+'" height="'+size+'">'+segs+'<circle cx="'+c+'" cy="'+c+'" r="'+(r-12)+'" fill="#fff"/>'+ct+'</svg>';
+  }
+
+  function groupedBars(id, cats, series){
+    var W=315,H=150,p={l:26,r:8,t:8,b:22};
+    var iw=W-p.l-p.r, ih=H-p.t-p.b;
+    var max=0; for(var s=0;s<series.length;s++) for(var i=0;i<series[s].values.length;i++) if(series[s].values[i]>max) max=series[s].values[i];
+    max=max*1.12;
+    var cw=iw/cats.length, sw=cw*0.62/series.length;
+    var g='';
+    for(var gg=0;gg<=4;gg++){ var y=p.t+ih*gg/4; g+='<line x1="'+p.l+'" y1="'+y+'" x2="'+(W-p.r)+'" y2="'+y+'" stroke="#EDEFF5"/>'; }
+    var bars='';
+    for(var ci=0;ci<cats.length;ci++){
+      var x0=p.l+cw*ci+cw*0.19;
+      for(s=0;s<series.length;s++){
+        var v=series[s].values[ci], h=ih*v/max, x=x0+s*sw, y=p.t+ih-h;
+        bars+='<rect x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+(sw-3).toFixed(1)+'" height="'+h.toFixed(1)+'" rx="2" fill="'+series[s].color+'"/>';
+      }
+      bars+='<text x="'+(p.l+cw*ci+cw/2).toFixed(1)+'" y="'+(H-7)+'" text-anchor="middle" font-size="9.5" fill="#9298AD">'+cats[ci]+'</text>';
+    }
+    var lg=''; for(s=0;s<series.length;s++) lg+='<span><i style="background:'+series[s].color+'"></i>'+series[s].label+'</span>';
+    document.getElementById(id).innerHTML='<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto">'+g+bars+'</svg><div class="legend" style="margin-top:4px">'+lg+'</div>';
+  }
+
+  function dimBars(id, items){
+    var HTML='';
+    for(var i=0;i<items.length;i++){
+      var it=items[i], pct=Math.min(100,Math.abs(it.v)/80*100);
+      var col=it.v>=0?'#0AA06E':'#E4393C';
+      var bar = it.v>=0
+        ? '<i style="width:'+(pct/2).toFixed(1)+'%;margin-left:50%;background:'+col+'"></i>'
+        : '<i style="width:'+(pct/2).toFixed(1)+'%;margin-left:'+(50-pct/2).toFixed(1)+'%;background:'+col+'"></i>';
+      HTML+='<div class="hbar"><div class="hbar-l">'+it.l+'</div>'+
+            '<div class="hbar-track" style="position:relative;background:linear-gradient(90deg,#FFECEC 0,#FFECEC 50%,#E6F7F1 50%,#E6F7F1 100%)">'+bar+'</div>'+
+            '<div class="hbar-v" style="width:auto;color:'+col+'">'+(it.v>0?'+':'')+it.v+'</div></div>';
+    }
+    document.getElementById(id).innerHTML=HTML;
+  }
+
+  function matrix(id, pts){
+    var W=315,H=290,p={l:36,r:10,t:12,b:30};
+    var iw=W-p.l-p.r, ih=H-p.t-p.b;
+    function X(v){ return p.l+iw*v/100; }
+    function Y(v){ return p.t+ih*(1-v/100); }
+    var z='<rect x="'+p.l+'" y="'+p.t+'" width="'+(iw/2)+'" height="'+(ih/2)+'" fill="#6C4CF1" opacity="0.05"/>'+
+          '<rect x="'+(p.l+iw/2)+'" y="'+(p.t+ih/2)+'" width="'+(iw/2)+'" height="'+(ih/2)+'" fill="#E4393C" opacity="0.05"/>';
+    var ax='<line x1="'+(p.l+iw/2)+'" y1="'+p.t+'" x2="'+(p.l+iw/2)+'" y2="'+(p.t+ih)+'" stroke="#D9DCE6" stroke-dasharray="3 3"/>'+
+           '<line x1="'+p.l+'" y1="'+(p.t+ih/2)+'" x2="'+(p.l+iw)+'" y2="'+(p.t+ih/2)+'" stroke="#D9DCE6" stroke-dasharray="3 3"/>';
+    var bub='';
+    for(var i=0;i<pts.length;i++){
+      var pt=pts[i];
+      bub+='<circle cx="'+X(pt.x).toFixed(1)+'" cy="'+Y(pt.y).toFixed(1)+'" r="'+(7+pt.s*0.06).toFixed(1)+'" fill="'+pt.c+'" opacity="0.8" stroke="#fff" stroke-width="1.5"/>'+
+           '<text x="'+X(pt.x).toFixed(1)+'" y="'+(Y(pt.y)+3).toFixed(1)+'" text-anchor="middle" font-size="8.5" fill="#fff" font-weight="800">'+pt.t+'</text>';
+    }
+    var xl='<text x="'+p.l+'" y="'+(H-9)+'" font-size="9.5" fill="#9298AD">竞争密度 低</text>'+
+           '<text x="'+(p.l+iw)+'" y="'+(H-9)+'" text-anchor="end" font-size="9.5" fill="#9298AD">高</text>';
+    var yl='<text x="3" y="'+(p.t+6)+'" font-size="9.5" fill="#9298AD">需求增速 高</text>'+
+           '<text x="3" y="'+(p.t+ih)+'" font-size="9.5" fill="#9298AD">低</text>';
+    document.getElementById(id).innerHTML='<svg viewBox="0 0 '+W+' '+H+'" style="width:100%;height:auto">'+z+ax+bub+xl+yl+'</svg>';
+  }
+
+  /* ===================== 数据层（演示用，品牌/数值均为虚构） ===================== */
+  /* ===================== 数据层（从 data.js / MEIRAN_DATA 接入） ===================== */
+  var D = window.MEIRAN_DATA || {};
+  var RANK = D.RANK || [];
+  var ING  = D.ING  || [];
+  var REVIEWS = D.REVIEWS || [];
+
+  /* ---------- 榜单渲染  /* ---------- 榜单渲染（美修式：增长点 / 下降原因 + 口碑 + 安全） ---------- */
+  var state={dim:'brand',type:'comp',dir:'up',cat:'护肤'};
+  function renderRank(){
+    var list=RANK.filter(function(r){return r.dim===state.dim;});
+    if(state.cat && state.cat!=='全部') list=list.filter(function(r){return r.cat.indexOf(state.cat)>=0;});
+    if(state.dir==='up') list=list.filter(function(r){return r.dir==='up';});
+    else if(state.dir==='down') list=list.filter(function(r){return r.dir==='down';});
+    list=list.slice().sort(function(a,b){return b[state.type]-a[state.type];});
+    var metricLabel={comp:'综合分',rep:'口碑分',sales:'环比%',safe:'安全分'}[state.type];
+    if(!list.length){ document.getElementById('rankList').innerHTML='<div class="xs t3" style="padding:14px 4px">该筛选条件下暂无数据</div>'; return; }
+    var html='';
+    for(var i=0;i<list.length;i++){
+      var r=list[i], rank=i+1;
+      var rc = rank===1?'top1':rank===2?'top2':rank===3?'top3':'';
+      var chg = state.type==='sales'
+        ? '<span style="color:'+(r.dir==='up'?'var(--up)':'var(--down)')+'">'+(r.dir==='up'?'+':'')+r.sales+'%</span>'
+        : '<span style="color:var(--t2)">'+r[state.type]+'</span>';
+      var reason = r.dir==='up' ? r.up : r.down;
+      var srcTag = state.type==='sales' ? '<span class="tag tg-third">第三方</span>' : '';
+      var oceanTag = r.dir==='up' ? '<span class="tag tg-up">上升榜</span>' : '<span class="tag tg-down">下降榜</span>';
+      html+='<div class="rk" data-go="s-pdp">'+
+        '<div class="rk-no '+rc+'">'+rank+'</div>'+
+        '<div class="rk-main">'+
+          '<div class="rk-name">'+r.name+'</div>'+
+          '<div class="rk-meta">'+r.cat+' · '+metricLabel+' '+r[state.type]+'</div>'+
+          '<div class="rk-tags"><span class="tag tg-brand">'+(r.dir==='up'?'增长':'下滑')+'</span>'+oceanTag+srcTag+'</div>'+
+          '<div class="rk-reason"><b>'+(r.dir==='up'?'增长原因：':'下降原因：')+'</b>'+reason+'</div>'+
+        '</div>'+
+        '<div class="rk-right"><div class="rk-chg">'+chg+'</div><div class="xs t3" style="margin-top:3px">安全 '+r.safe+'</div></div>'+
+      '</div>';
+    }
+    document.getElementById('rankList').innerHTML=html;
+  }
+
+  /* ---------- 成分表渲染 ---------- */
+  function renderIng(){
+    var html='';
+    for(var i=0;i<ING.length;i++){
+      var g=ING[i];
+      var stars='★'.repeat(g.s)+'☆'.repeat(5-g.s);
+      var riskTag = g.risk ? '<span class="ing-tag it-risk">风险</span>' : '<span class="ing-tag it-safe">安全</span>';
+      var eff = g.role.split('（')[0].split('·')[0];
+      if(eff.length>6) eff=eff.slice(0,6);
+      html+='<tr data-go="s-ing-ing" style="cursor:pointer">'+
+        '<td class="ing-idx">'+(i+1)+'</td>'+
+        '<td><div class="ing-name">'+g.n+'</div><div class="ing-role">'+g.inci+' · '+g.role+'</div></td>'+
+        '<td style="vertical-align:top"><span class="ing-tag it-info">'+eff+'</span><br>'+riskTag+'</td>'+
+        '<td style="text-align:center;vertical-align:top"><span class="star">'+stars+'</span></td>'+
+      '</tr>';
+    }
+    document.getElementById('ingBody').innerHTML=html;
+  }
+
+  /* ---------- 评论渲染 ---------- */
+  function renderReviews(f){
+    var list = f==='all'?REVIEWS:REVIEWS.filter(function(r){return r.s===f;});
+    var colMap={good:'var(--up-soft)',mid:'var(--warn-soft)',bad:'var(--down-soft)'};
+    var bcolMap={good:'var(--up)',mid:'var(--warn)',bad:'var(--down)'};
+    var badgeMap={good:'好评',mid:'中评',bad:'差评'};
+    var html='';
+    for(var i=0;i<list.length;i++){
+      var r=list[i];
+      var tags=r.tags.map(function(t){return '<span class="tag">'+t+'</span>';}).join('');
+      html+='<div class="rv"><div class="rv-h"><div class="rv-av">'+r.a+'</div><div class="rv-n">'+r.u+'</div>'+
+        '<div class="stars">'+'★'.repeat(r.st)+'☆'.repeat(5-r.st)+'</div><div class="rv-t">'+r.t+'</div></div>'+
+        '<div class="rv-c">'+r.txt+'</div>'+
+        '<div class="rv-f"><span class="tag" style="background:'+colMap[r.s]+';color:'+bcolMap[r.s]+'">'+badgeMap[r.s]+'</span>'+tags+'</div></div>';
+    }
+    document.getElementById('reviewList').innerHTML=html;
+  }
+
+  /* ---------- 高频词云 ---------- */
+  function kwCloud(id, arr){
+    var html='';
+    for(var i=0;i<arr.length;i++){
+      var sz=11+arr[i][1]*1.7;
+      var col = arr[i][1]>=4?'#6C4CF1':arr[i][1]>=3?'#8A63F5':arr[i][1]>=2?'#FF7A45':'#9298AD';
+      html+='<span style="font-size:'+sz.toFixed(1)+'px;color:'+col+';font-weight:700">'+arr[i][0]+'</span>';
+    }
+    document.getElementById(id).innerHTML=html;
+  }
+
+  /* ===================== 交互绑定 ===================== */
+  function bindSeg(containerId, attr, key, after){
+    var c=document.getElementById(containerId); if(!c) return;
+    c.addEventListener('click', function(e){
+      var it=e.target.closest('.seg-item,.subseg-item,.chip'); if(!it||it.parentElement!==c) return;
+      var kids=c.children; for(var k=0;k<kids.length;k++) kids[k].classList.remove('on');
+      it.classList.add('on');
+      state[key]=it.getAttribute(attr);
+      if(after) after();
+    });
+  }
+
+  function bindRankChips(){
+    var box=document.querySelector('#s-rank .chips'); if(!box) return;
+    box.addEventListener('click', function(e){
+      var it=e.target.closest('.chip'); if(!it) return;
+      if(it.hasAttribute('data-dir')){
+        var d=box.querySelectorAll('.chip[data-dir]'); for(var i=0;i<d.length;i++) d[i].classList.remove('on');
+        it.classList.add('on'); state.dir=it.getAttribute('data-dir');
+      }
+      if(it.hasAttribute('data-cat')){
+        var c=box.querySelectorAll('.chip[data-cat]'); for(var j=0;j<c.length;j++) c[j].classList.remove('on');
+        it.classList.add('on'); state.cat=it.getAttribute('data-cat');
+      }
+      renderRank();
+    });
+  }
+
+  function bindQuerySub(){
+    var qSub=document.getElementById('qSub'); if(!qSub) return;
+    qSub.addEventListener('click', function(e){
+      var it=e.target.closest('.subseg-item'); if(!it) return;
+      if(it.getAttribute('data-v')==='ing') return; // 由自带 onclick 跳转
+      var kids=qSub.children; for(var k=0;k<kids.length;k++) kids[k].classList.remove('on');
+      it.classList.add('on');
+      document.getElementById('qSales').style.display = it.getAttribute('data-v')==='sales' ? 'block':'none';
+    });
+  }
+
+  function bindSegSent(){
+    var seg=document.getElementById('segSent'); if(!seg) return;
+    seg.addEventListener('click', function(e){
+      var it=e.target.closest('.seg-item'); if(!it) return;
+      var kids=seg.children; for(var k=0;k<kids.length;k++) kids[k].classList.remove('on');
+      it.classList.add('on'); renderReviews(it.getAttribute('data-v'));
+    });
+  }
+
+  /* ---------- 自定义行业/品类 底部弹层 ---------- */
+  function openSheet(){
+    var m=document.createElement('div'); m.className='mask on';
+    m.innerHTML='<div class="sheet"><div class="sheet-h"><b>自定义行业 / 品类</b><i>✕</i></div>'+
+      '<div style="font-size:12px;color:#5B6078;line-height:1.9">勾选你关注的赛道，情报台将按此过滤：<br>'+
+      '· 大类：护肤 / 彩妆 / 洗护 / 身体护理 / 口腔<br>'+
+      '· 细分：洁面 · 头皮护理 · 卸妆 · 防晒 · 功效护肤…<br><br>'+
+      '<span class="tag tg-unknown">演示</span> 保存后于下一刷新周期生效（本原型仅展示交互形态）。</div>'+
+      '<button class="btn" style="margin-top:14px">完成</button></div>';
+    m.addEventListener('click', function(e){ if(e.target===m || e.target.tagName==='I' || e.target.tagName==='BUTTON') m.remove(); });
+    document.getElementById('phone').appendChild(m);
+  }
+
+  /* ===================== 总览模式 ===================== */
+  var galleryBuilt=false;
+  function buildGallery(){
+    if(galleryBuilt) return;
+    var g=document.getElementById('gallery');
+    var screens=document.querySelectorAll('.screen');
+    var html='';
+    for(var i=0;i<screens.length;i++){
+      var s=screens[i];
+      var label=s.getAttribute('data-label')||s.id;
+      html+='<div class="ovcard"><div class="ovlabel">'+label+'<em>'+s.id+'</em></div><div class="ovframe">'+s.outerHTML+'</div></div>';
+    }
+    g.innerHTML=html; galleryBuilt=true;
+  }
+  function setOverview(on){
+    document.body.classList.toggle('ov',on);
+    var bAll=document.getElementById('btnAll'), bInt=document.getElementById('btnInt');
+    if(bAll) bAll.classList.toggle('on',on);
+    if(bInt) bInt.classList.toggle('on',!on);
+    if(on) buildGallery();
+  }
+
+  /* ===================== 初始化 ===================== */
+  function init(){
+    injectTabbars();
+
+    // 图表（数据源：data.js / MEIRAN_DATA.CHARTS）
+    var C = window.MEIRAN_DATA ? window.MEIRAN_DATA.CHARTS : {};
+
+    lineChart('homeChart', C.home, {min0:true});
+    lineChart('qChart', C.q, {min0:true});
+    lineChart('boardChart', C.board, {min0:true});
+    groupedBars('newsBars', C.news.cats, C.news.series);
+    donut('chanDonut', C.channel, '100%');
+    donut('sentDonut', C.sentiment, '1,000');
+    dimBars('dimBars', C.dims);
+    kwCloud('kwCloud', C.kw);
+    matrix('matrix', C.matrix);
+
+    // 价格带分布（数据源：MEIRAN_DATA.PRICE）
+    var price = window.MEIRAN_DATA ? window.MEIRAN_DATA.PRICE : [];
+    document.getElementById('priceBars').innerHTML=price.map(function(d){
+      return '<div class="hbar"><div class="hbar-l">'+d[0]+'</div><div class="hbar-track"><i style="width:'+d[1]+'%;background:'+d[2]+'"></i></div><div class="hbar-v">'+d[1]+'%</div></div>';
+    }).join('');
+
+    // 列表    // 列表
+    renderRank();
+    renderIng();
+    renderReviews('all');
+
+    // 交互
+    bindSeg('segDim','data-v','dim',renderRank);
+    bindSeg('segType','data-v','type',renderRank);
+    bindRankChips();
+    bindQuerySub();
+    bindSegSent();
+
+    // 顶部总览切换
+    var bInt=document.getElementById('btnInt'), bAll=document.getElementById('btnAll');
+    if(bInt) bInt.addEventListener('click',function(){ setOverview(false); });
+    if(bAll) bAll.addEventListener('click',function(){ setOverview(true); });
+
+    setActiveTab('s-home');
+  }
+
+  // 暴露给 HTML 内联 onclick 使用
+  window.go=go; window.back=back; window.openSheet=openSheet;
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init);
+  else init();
+})();
+</script>
+</body>
+</html>
